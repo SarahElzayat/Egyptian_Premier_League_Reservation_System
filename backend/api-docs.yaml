@@ -1,0 +1,72 @@
+openapi: 3.0.0
+info:
+  title: Egyptian Premier League Match Reservation System
+  description: Egyptian Premier League Match Reservation System API documentation
+  version: 1.0.0
+servers:
+  - url: "https://api-gateway-f4zcehgtmq-nw.a.run.app"
+    description: "Development server"
+tags:
+  - name: admins
+    description: Everything about admins
+  - name: user
+    description: Everything about user
+  - name: statium
+    description: Everything about statium
+  - name : teams
+    description: Everything about teams
+  - name: matches
+    description: Everything about matches
+  - name: reservations
+    description: Everything about reservations
+
+paths:
+  /user/login:
+    post:
+      summary: Login user
+      tags:
+        - user
+      description: Login user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "user1"
+                password:
+                  type: string
+                  example: "123456"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "invalid username or password"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "internal server error"

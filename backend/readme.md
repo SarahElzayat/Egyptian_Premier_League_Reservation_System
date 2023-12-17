@@ -55,7 +55,7 @@ Note: there is only 18 team in the DB "from document"
 - id "unique"
 - Home Team. , will be foregen key
 - Away Team. should not be the same as the home
-  team. , will be foregen key
+  team). , will be foregen key
 - Match Venue (One of the stadiums approved by the EFA managers) , will be foregen key
 - Date & Time.
 - Main Referee.
