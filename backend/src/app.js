@@ -24,6 +24,7 @@ require("./entities/reservation");
 
 // import all routes here
 const { userRouter } = require("./routes/user");
+const { adminRouter } = require("./routes/admin");
 class App {
   constructor() {
     this.app = express();
@@ -34,6 +35,7 @@ class App {
     this.app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
     this.appStatus();
     this.app.use("/user", userRouter);
+    this.app.use("/admin", adminRouter);
   }
   listen() {
     this.app.listen(this.port, () => {

@@ -57,6 +57,15 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "user approved successfully"
+
         "400":
           description: Bad Request
           content:
@@ -80,6 +89,7 @@ paths:
                     example: "internal server error"
   /admin/get_appended_users:
     get:
+      description: the output list will be sorted from recent to latest
       summary: get list of all users waiting for approve
       tags:
         - admin
@@ -171,6 +181,14 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "user deleted successfully"
         "400":
           description: Bad Request
           content:
