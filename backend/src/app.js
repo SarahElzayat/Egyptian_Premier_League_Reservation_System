@@ -14,6 +14,13 @@ const options = {
 };
 const swaggerSpec = swaggerJSDoc(options);
 
+// require all entities files here, just to create tables in database
+require("./entities/admin");
+require("./entities/team");
+require("./entities/stadium");
+require("./entities/user");
+require("./entities/match");
+require("./entities/reservation");
 class App {
   constructor() {
     this.app = express();
@@ -36,7 +43,7 @@ class App {
   }
   async connectToDatabase() {
     try {
-      await db.sync({});
+      await db.sync({ sync: true });
       console.log("Connection has been established successfully.");
     } catch (error) {
       console.error("error", error);

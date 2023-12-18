@@ -39,33 +39,34 @@ has only
 
 # 3-statiums
 
-- id : 'unique'
-- name
-- dimntion1
-- dimentsion2
+- id : 'unique' , autoincrement
+- name , string
+- dimntion1 , integer
+- dimentsion2 , integer
 
 # 4-team
 
 Note: there is only 18 team in the DB "from document"
 
-- id "unique"
-- name
+- id "unique" , autoincrement
+- name, string
 
 # 5-matches
 
 - id "unique"
-- Home Team. , will be foregen key
+- Home Team. , will be foregen key to team table
 - Away Team. should not be the same as the home
-  team. , will be foregen key
-- Match Venue (One of the stadiums approved by the EFA managers) , will be foregen key
+  team. , will be foregen key to team table
+- Match Venue (One of the stadiums approved by the EFA managers) , will be foregen key to statium table
 - Date & Time.
 - Main Referee.
-- Two Linesmen.
+- Linesmen1.
+- Linesmen2.
 
-# 6- reservations
+# 6- reservation
 
 - id "unique"
-- matches id "foregen key to matches"
-- user "foregen key to users"
-- seat row
-- seat coloum
+- match id "foregen key to matches"
+- userId "foregen key to users"
+- seat row , integer
+- seat coloum , integer
