@@ -12,8 +12,12 @@ const Match = db.define(
       allowNull: false,
       unique: true,
     },
-    date_time: {
+    date: {
       type: DataTypes.DATE,
+      allowNull: false,
+    },
+    time: {
+      type: DataTypes.TIME,
       allowNull: false,
     },
     main_referee: {

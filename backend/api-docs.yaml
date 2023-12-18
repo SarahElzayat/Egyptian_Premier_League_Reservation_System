@@ -562,27 +562,30 @@ paths:
             schema:
               type: object
               properties:
-                home_team:
-                  type: string
-                  example: "al ahly"
-                away_team:
-                  type: string
-                  example: "zamalek"
+                home_team_id:
+                  type: integer
+                  example: 1
+                away_team_id:
+                  type: integer
+                  example: 2
                 match_venue_id:
                   type: integer
-                  example: 8
-                date_time:
+                  example: 2
+                date:
                   type: string
-                  example: "mon/day/year"
+                  example: "10/23/2024"
+                time:
+                  type: string
+                  example: "20:45"
                 main_referee:
                   type: string
-                  example: "male"
+                  example: "mohamed ahemd"
                 linesmen1:
                   type: string
-                  example: "cairo"
+                  example: "yasser"
                 linesmen2:
                   type: string
-                  example: "15 b 6 october"
+                  example: "mohamed sad"
       responses:
         "201":
           description: Successful create
@@ -591,10 +594,39 @@ paths:
               schema:
                 type: object
                 properties:
-                  match_id:
-                    type: integer
-                    example: 2
-
+                  message:
+                    type: string
+                    example: "match created successfully"
+                  match:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      home_team_id:
+                        type: integer
+                        example: 1
+                      away_team_id:
+                        type: integer
+                        example: 2
+                      match_venue_id:
+                        type: integer
+                        example: 2
+                      date:
+                        type: string
+                        example: "10/23/2024"
+                      time:
+                        type: string
+                        example: "20:45"
+                      main_referee:
+                        type: string
+                        example: "mohamed ahemd"
+                      linesmen1:
+                        type: string
+                        example: "yasser"
+                      linesmen2:
+                        type: string
+                        example: "mohamed sad"
         "400":
           description: Bad Request
           content:
@@ -620,7 +652,8 @@ paths:
       summary: Update mach deails
       tags:
         - match
-      description: token must be from manager user , all feilds in the body is optional , any provided field will be changed.
+      description: token must be from manager user , all feilds in the body is optional , any provided field will be changed. only the id must be provided
+
       security:
         - bearerAuth: [] # Reference to the security scheme
       parameters:
@@ -637,32 +670,36 @@ paths:
             schema:
               type: object
               properties:
-                home_team:
-                  type: string
-                  example: "al ahly"
-                away_team:
-                  type: string
-                  example: "zamalek"
+                id:
+                  type: integer
+                  example: 2
+                home_team_id:
+                  type: integer
+                  example: 1
+                away_team_id:
+                  type: integer
+                  example: 3
                 match_venue_id:
                   type: integer
                   example: 1
-                date_time:
+                date:
                   type: string
-                  example: "mon/day/year"
+                  example: "10/23/2024"
+                time:
+                  type: string
+                  example: "20:45"
                 main_referee:
                   type: string
-                  example: "male"
+                  example: "mohamed yasswe ahmed"
                 linesmen1:
                   type: string
-                  example: "cairo"
+                  example: "yasser"
                 linesmen2:
                   type: string
-                  example: "15 b 6 october"
+                  example: "mohamed sad"
       responses:
         "200":
           description: Successful update
-        "400":
-          description: Bad Request
           content:
             application/json:
               schema:
@@ -670,7 +707,48 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: "invalid parameters "
+                    example: "match updated successfully"
+                  match:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      home_team_id:
+                        type: integer
+                        example: 1
+                      away_team_id:
+                        type: integer
+                        example: 2
+                      match_venue_id:
+                        type: integer
+                        example: 2
+                      date:
+                        type: string
+                        example: "10/23/2024"
+                      time:
+                        type: string
+                        example: "20:45"
+                      main_referee:
+                        type: string
+                        example: "mohamed ahemd"
+                      linesmen1:
+                        type: string
+                        example: "yasser"
+                      linesmen2:
+                        type: string
+                        example: "mohamed sad"
+
+        "400":
+          description: Bad Request due to invalid parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "home team and away team can't be the same"
         "500":
           description: Internal Server Error
           content:
@@ -688,7 +766,7 @@ paths:
       description: get specific mach details , note that there is another endoint to get all maches,vacant_seats and reserved_seats will return as list of elements , each element is list of two numbers (row and coloum ) we will return it as you provide in endpoint "reserve ticket for mach"
       parameters:
         - in: query
-          name: mach_id
+          name: id
           required: true
           schema:
             type: integer
@@ -701,47 +779,47 @@ paths:
               schema:
                 type: object
                 properties:
-                  home_team:
-                    type: string
-                    example: "al ahly"
-                  away_team:
-                    type: string
-                    example: "zamalek"
-                  match_venue_id:
+                  id:
                     type: integer
                     example: 1
-                  match_venue_name:
-                    type: string
-                    example: "cairo statium"
-                  date_time:
-                    type: string
-                    example: "mon/day/year"
+                  date:
+                    example: "2024-10-22T22:00:00.000Z"
+                  time:
+                    example: "20:45:00"
                   main_referee:
-                    type: string
                     example: "male"
                   linesmen1:
-                    type: string
                     example: "cairo"
                   linesmen2:
-                    type: string
                     example: "15 b 6 october"
-                  num_reserved_seats:
+                  home_team_id:
+                    example: 1
+                  away_team_id:
+                    example: 2
+                  match_venue_id:
+                    example: 2
+                  home_team:
+                    example:
+                      id: 1
+                      name: "team1"
+                  away_team:
+                    example:
+                      id: 2
+                      name: "team2"
+                  match_venue:
+                    example:
+                      id: 2
+                      name: "stadium2"
+                      dimension1: 3
+                      dimension2: 4
+
+                  num_booked_seats:
                     type: integer
                     example: 12
                   num_vacant_seats:
                     type: integer
                     example: 12
                   reserved_seats:
-                    type: array
-                    items:
-                      type: array
-                      items:
-                        type: integer
-                    example:
-                      - [1, 2]
-                      - [2, 2]
-                      - [3, 3]
-                  vacant_seats:
                     type: array
                     items:
                       type: array

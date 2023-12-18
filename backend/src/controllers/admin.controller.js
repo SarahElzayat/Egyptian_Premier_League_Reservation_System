@@ -8,7 +8,9 @@ const approveController = async (req, res) => {
   try {
     const data = req.body;
     const out = await approveService(data);
-    res.status(200).json(out);
+    const status = out.status || 200;
+    const response = out.response || { message: "success" };
+    res.status(status).json(response);
   } catch (error) {
     status = error.status || 500;
     message = error.message || "internal server error";
@@ -20,7 +22,9 @@ const deleteUserController = async (req, res) => {
   try {
     const data = req.query;
     const out = await deleteUserService(data);
-    res.status(200).json(out);
+    const status = out.status || 200;
+    const response = out.response || { message: "success" };
+    res.status(status).json(response);
   } catch (error) {
     status = error.status || 500;
     message = error.message || "internal server error";
@@ -32,7 +36,9 @@ const getAllAppendingUsersController = async (req, res) => {
   try {
     const data = req.body;
     const out = await getAllAppendingUsersService(data);
-    res.status(200).json(out);
+    const status = out.status || 200;
+    const response = out.response || { message: "success" };
+    res.status(status).json(response);
   } catch (error) {
     status = error.status || 500;
     message = error.message || "internal server error";

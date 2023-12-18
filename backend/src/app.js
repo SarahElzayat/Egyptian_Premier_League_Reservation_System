@@ -17,7 +17,7 @@ const swaggerSpec = swaggerJSDoc(options);
 // require all entities files here, just to create tables in database
 require("./entities/admin");
 require("./entities/team");
-require("./entities/stadium");
+require("./entities/Stadium");
 require("./entities/user");
 require("./entities/match");
 require("./entities/reservation");
@@ -25,6 +25,7 @@ require("./entities/reservation");
 // import all routes here
 const { userRouter } = require("./routes/user");
 const { adminRouter } = require("./routes/admin");
+const { matchRouter } = require("./routes/match");
 class App {
   constructor() {
     this.app = express();
@@ -36,6 +37,7 @@ class App {
     this.appStatus();
     this.app.use("/user", userRouter);
     this.app.use("/admin", adminRouter);
+    this.app.use("/match", matchRouter);
   }
   listen() {
     this.app.listen(this.port, () => {

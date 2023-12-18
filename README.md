@@ -59,7 +59,8 @@ Note: there is only 18 team in the DB "from document"
 - Away Team. should not be the same as the home
   team. , will be foregen key to team table
 - Match Venue (One of the stadiums approved by the EFA managers) , will be foregen key to statium table
-- Date & Time.
+- Date .
+- Time
 - Main Referee.
 - Linesmen1.
 - Linesmen2.

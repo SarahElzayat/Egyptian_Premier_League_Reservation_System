@@ -31,7 +31,10 @@ const approveService = async (data) => {
     }
   );
   return {
-    message: "user approved successfully",
+    status: 200,
+    response: {
+      message: "user approved successfully",
+    },
   };
 };
 
@@ -56,8 +59,12 @@ const deleteUserService = async (data) => {
       username,
     },
   });
+  console.log("user deleted successfully");
   return {
-    message: "user deleted successfully",
+    status: 200,
+    response: {
+      message: "user deleted successfully",
+    },
   };
 };
 
@@ -77,7 +84,10 @@ const getAllAppendingUsersService = async (data) => {
     out[i] = out[i].dataValues;
   }
   return {
-    users: out,
+    status: 200,
+    response: {
+      users: out,
+    },
   };
 };
 

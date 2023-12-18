@@ -27,8 +27,11 @@ const loginService = async (data) => {
     };
   }
   return {
-    token: jwt.sign({ id: user.userId }, JWT_SECRET_KEY),
-    user: user.dataValues,
+    status: 200,
+    response: {
+      token: jwt.sign({ id: user.userId }, JWT_SECRET_KEY),
+      user: user.dataValues,
+    },
   };
 };
 
@@ -88,15 +91,21 @@ const registerService = async (data) => {
   //   create the token and return it in the response
 
   return {
-    token: jwt.sign({ id }, JWT_SECRET_KEY),
-    user: user.dataValues,
+    status: 201,
+    response: {
+      token: jwt.sign({ id }, JWT_SECRET_KEY),
+      user: user.dataValues,
+    },
   };
 };
 
 const updateUserService = async (data) => {
   console.log(data);
   const user = await User.update(data, { where: { userId: data.userId } });
-  return { message: "user updated successfully", user: data };
+  return {
+    status: 200,
+    response: { message: "user updated successfully", user: data },
+  };
 };
 
 module.exports = { loginService, registerService, updateUserService };

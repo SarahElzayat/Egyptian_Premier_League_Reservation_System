@@ -8,7 +8,9 @@ const login = async (req, res) => {
   try {
     const data = req.body;
     const user = await loginService(data);
-    res.status(200).json(user);
+    const status = user.status || 200;
+    const response = user.response || { message: "success" };
+    res.status(status).json(response);
   } catch (error) {
     status = error.status || 500;
     message = error.message || "internal server error";
@@ -20,7 +22,9 @@ const regestration = async (req, res) => {
   try {
     const data = req.body;
     const user = await registerService(data);
-    res.status(200).json(user);
+    const status = user.status || 200;
+    const response = user.response || { message: "success" };
+    res.status(status).json(response);
   } catch (error) {
     status = error.status || 500;
     message = error.message || "internal server error";
@@ -32,7 +36,9 @@ const update = async (req, res) => {
   try {
     const data = req.body;
     const user = await updateUserService(data);
-    res.status(200).json(user);
+    const status = user.status || 200;
+    const response = user.response || { message: "success" };
+    res.status(status).json(response);
   } catch (error) {
     status = error.status || 500;
     message = error.message || "internal server error";
