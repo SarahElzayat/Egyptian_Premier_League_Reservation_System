@@ -25,6 +25,7 @@ has only
 
 # 2-users
 
+- status: approved or not
 - role: manager or fan
 - username : 'unique'
 - password
