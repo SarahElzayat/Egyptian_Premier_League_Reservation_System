@@ -21,6 +21,9 @@ require("./entities/stadium");
 require("./entities/user");
 require("./entities/match");
 require("./entities/reservation");
+
+// import all routes here
+const { userRouter } = require("./routes/user");
 class App {
   constructor() {
     this.app = express();
@@ -30,6 +33,7 @@ class App {
     this.initializeMiddlewares();
     this.app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
     this.appStatus();
+    this.app.use("/user", userRouter);
   }
   listen() {
     this.app.listen(this.port, () => {
@@ -70,7 +74,9 @@ class App {
     this.app.use(express.json());
     this.app.use(cors());
   }
-  initializeRoutes() {}
+  initializeRoutes() {
+    //
+  }
 }
 
 module.exports = { App };
