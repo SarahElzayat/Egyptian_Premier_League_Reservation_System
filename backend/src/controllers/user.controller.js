@@ -6,31 +6,37 @@ const {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await loginService(email, password);
+    const data = req.body;
+    const user = await loginService(data);
     res.status(200).json(user);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    status = error.status || 500;
+    message = error.message || "internal server error";
+    res.status(status).json({ message });
   }
 };
 
 const regestration = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await registerService(email, password);
+    const data = req.body;
+    const user = await registerService(data);
     res.status(200).json(user);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    status = error.status || 500;
+    message = error.message || "internal server error";
+    res.status(status).json({ message });
   }
 };
 
 const update = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await updateUserService(email, password);
+    const data = req.body;
+    const user = await updateUserService(data);
     res.status(200).json(user);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    status = error.status || 500;
+    message = error.message || "internal server error";
+    res.status(status).json({ message });
   }
 };
 

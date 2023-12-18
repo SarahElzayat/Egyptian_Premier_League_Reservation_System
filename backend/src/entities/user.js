@@ -59,6 +59,10 @@ const User = db.define(
       type: DataTypes.STRING,
       allowNull: true, // Address is optional
     },
+    regesterAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
   },
   {
     timestamps: false, // This line prevents the createdAt and updatedAt columns

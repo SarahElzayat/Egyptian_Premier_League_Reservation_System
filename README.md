@@ -36,6 +36,7 @@ has only
 - gender
 - city
 - address "optional" default is none
+- regesterAt
 
 # 3-statiums
 

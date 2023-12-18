@@ -78,6 +78,75 @@ paths:
                   message:
                     type: string
                     example: "internal server error"
+  /admin/get_appended_users:
+    get:
+      summary: get list of all users waiting for approve
+      tags:
+        - admin
+      security:
+        - bearerAuth: [] # Reference to the security scheme
+      parameters:
+        - in: header
+          name: token
+          description: Bearer token for authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        regesterAt:
+                          type: string
+                          example: "string"
+                        username:
+                          type: string
+                          example: "ahmed sayed"
+                        email:
+                          type: string
+                          example: "ahmed@gmail.com"
+                    example:
+                      - regesterAt: "string"
+                        username: "ahmed sayed"
+                        email: "ahmed@gmail.com"
+                      - regesterAt: "string"
+                        username: "ahmed sayed"
+                        email: "ahmed@gmail.com"
+                      - regesterAt: "string"
+                        username: "ahmed sayed"
+                        email: "ahmed@gmail.com"
+
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "invalid username or username dosnt exist"
+
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "internal server error"
+
   /admin/delet_user:
     delete:
       summary: delete existing user
@@ -154,6 +223,50 @@ paths:
                   token:
                     type: string
                     example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                  user:
+                    type: object
+                    properties:
+                      role:
+                        type: string
+                        example: "fan"
+                      username:
+                        type: string
+                        example: "ahmed"
+                      password:
+                        type: string
+                        example: "ahmed"
+
+                      email:
+                        type: string
+                        example: "ahmed@madbouly"
+
+                      first_name:
+                        type: string
+                        example: "ahmed"
+                      last_name:
+                        type: string
+                        example: "ahmed"
+                      birth_of_date:
+                        type: string
+                        example: "12/4"
+                      gender:
+                        type: string
+                        example: "male"
+                      city:
+                        type: string
+                        example: "d"
+                      address:
+                        type: string
+                        example: "asd"
+
+                      regesterAt:
+                        type: string
+                        example: "asd"
+
+                      status:
+                        type: string
+                        example: "not approved"
+
         "400":
           description: Bad Request
           content:
@@ -179,7 +292,7 @@ paths:
       summary: register new user
       tags:
         - user
-      description: address is optional, username must be unique
+      description: address is optional, username must be unique, role  must be "fan" or "maanger",
       requestBody:
         required: true
         content:
@@ -197,6 +310,9 @@ paths:
                 password:
                   type: string
                   example: "123456"
+                email:
+                  type: string
+                  example: "ahmed@gmai.com"
                 first_name:
                   type: string
                   example: "ahmed"
@@ -226,6 +342,50 @@ paths:
                   token:
                     type: string
                     example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                  user:
+                    type: object
+                    properties:
+                      role:
+                        type: string
+                        example: "fan"
+                      username:
+                        type: string
+                        example: "ahmed"
+                      password:
+                        type: string
+                        example: "ahmed"
+
+                      email:
+                        type: string
+                        example: "ahmed@madbouly"
+
+                      first_name:
+                        type: string
+                        example: "ahmed"
+                      last_name:
+                        type: string
+                        example: "ahmed"
+                      birth_of_date:
+                        type: string
+                        example: "12/4"
+                      gender:
+                        type: string
+                        example: "male"
+                      city:
+                        type: string
+                        example: "d"
+                      address:
+                        type: string
+                        example: "asd"
+
+                      regesterAt:
+                        type: string
+                        example: "asd"
+
+                      status:
+                        type: string
+                        example: "not approved"
+
         "400":
           description: Bad Request
           content:
@@ -291,7 +451,58 @@ paths:
                   example: "15 b 6 october"
       responses:
         "200":
-          description: Successful update
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "user updated successfully"
+                  user:
+                    type: object
+                    properties:
+                      role:
+                        type: string
+                        example: "fan"
+                      username:
+                        type: string
+                        example: "ahmed"
+                      password:
+                        type: string
+                        example: "ahmed"
+
+                      email:
+                        type: string
+                        example: "ahmed@madbouly"
+
+                      first_name:
+                        type: string
+                        example: "ahmed"
+                      last_name:
+                        type: string
+                        example: "ahmed"
+                      birth_of_date:
+                        type: string
+                        example: "12/4"
+                      gender:
+                        type: string
+                        example: "male"
+                      city:
+                        type: string
+                        example: "d"
+                      address:
+                        type: string
+                        example: "asd"
+
+                      regesterAt:
+                        type: string
+                        example: "asd"
+
+                      status:
+                        type: string
+                        example: "not approved"
         "400":
           description: Bad Request
           content:
