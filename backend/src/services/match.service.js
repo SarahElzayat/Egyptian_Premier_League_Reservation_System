@@ -2,6 +2,8 @@ const { Match } = require("../entities/match");
 const { Team } = require("../entities/team");
 const { Stadium } = require("../entities/Stadium");
 const { Reservation } = require("../entities/reservation");
+const { Op } = require("sequelize");
+
 const createMatchService = async (data) => {
   const {
     home_team_id,
@@ -227,40 +229,26 @@ const getMatchService = async (data) => {
   };
 };
 const getAllUpcommingMatchService = async (data) => {
-  const match = await Match.findOne({
-    include: [
-      { model: Team, as: "home_team" },
-      { model: Team, as: "away_team" },
-      { model: Stadium, as: "match_venue" },
-    ],
+  let currentDate = new Date(); // current date
+  const currentTime = new Date(); // current time
+
+  const matches = await Match.findAll({
+    where: {
+      date: {
+        [Op.gt]: currentDate, // Matches with date greater than current date
+      },
+      // [Op.or]: [
+      //   // Matches with the same date but a later time
+      //   { date: currentDate, time: { [Op.gt]: currentTime } },
+      // ],
+    },
   });
-  if (!match) {
-    throw {
-      status: 400,
-      message: "invalid match id",
-    };
-  }
-  let match_data = match.dataValues;
-  let total_tickets =
-    match_data.match_venue.dimension1 * match_data.match_venue.dimension2;
-  let booked_tickets = await Reservation.count({ where: { matchId: id } });
-  match_data["num_vacant_seats"] = total_tickets - booked_tickets;
-  match_data["num_booked_seats"] = booked_tickets;
-  let reserved_tickets = await Reservation.findAll({
-    where: { matchId: id },
-    attributes: ["seat_row", "seat_column"],
-  });
-  for (let i = 0; i < reserved_tickets.length; i++) {
-    reserved_tickets[i] = [
-      reserved_tickets[i].dataValues.seat_row,
-      reserved_tickets[i].dataValues.seat_column,
-    ];
-  }
-  match_data["reserved_tickets"] = reserved_tickets;
+
+  // match_data["reserved_tickets"] = reserved_tickets;
   return {
     status: 200,
     response: {
-      match: match_data,
+      match: matches,
     },
   };
 };
