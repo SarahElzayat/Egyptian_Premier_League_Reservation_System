@@ -12,8 +12,8 @@ const approveController = async (req, res) => {
     const response = out.response || { message: "success" };
     res.status(status).json(response);
   } catch (error) {
-    status = error.status || 500;
-    message = error.message || "internal server error";
+    const status = error.status || 500;
+    const message = error.message || "internal server error";
     res.status(status).json({ message });
   }
 };
@@ -26,8 +26,8 @@ const deleteUserController = async (req, res) => {
     const response = out.response || { message: "success" };
     res.status(status).json(response);
   } catch (error) {
-    status = error.status || 500;
-    message = error.message || "internal server error";
+    const status = error.status || 500;
+    const message = error.message || "internal server error";
     res.status(status).json({ message });
   }
 };
@@ -40,8 +40,8 @@ const getAllAppendingUsersController = async (req, res) => {
     const response = out.response || { message: "success" };
     res.status(status).json(response);
   } catch (error) {
-    status = error.status || 500;
-    message = error.message || "internal server error";
+    const status = error.status || 500;
+    const message = error.message || "internal server error";
     res.status(status).json({ message });
   }
 };
