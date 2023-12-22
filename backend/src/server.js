@@ -10,3 +10,7 @@ class Server {
 }
 
 new Server().start();
+
+// let currentDate = new Date(); // current date
+// console.log(currentDate);
+
