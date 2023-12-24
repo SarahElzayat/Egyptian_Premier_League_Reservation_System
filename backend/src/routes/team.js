@@ -9,10 +9,7 @@ teamRouter.put("/", authMiddleware, teamController.updateTeamController);
 
 teamRouter.get("/", teamController.getTeamController);
 
-teamRouter.get("/all",teamController.getAllTeamsController);
-teamRouter.post("/",authMiddleware, teamController.getAllTeamsController);
-teamRouter.put("/",authMiddleware, teamController.getAllTeamsController);
-teamRouter.delete("/", teamController.getAllTeamsController);
-teamRouter.get("/", teamController.getAllTeamsController);
+teamRouter.get("/all",authMiddleware, teamController.getAllTeamsController);
+teamRouter.delete("/", teamController.deleteTeamController);
 
 module.exports = { teamRouter };

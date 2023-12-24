@@ -2,7 +2,8 @@ const {
     createTeamService,
     updateTeamService,
     getTeamService,
-    getAllTeamsService
+    getAllTeamsService,
+    deleteTeamService
   } = require("../services/team.service");
   
 const createTeamController = async (req, res) => {
@@ -60,9 +61,24 @@ const getAllTeamsController = async (req, res) => {
     }
   };
 
+const deleteTeamController = async (req, res) => {
+try {
+    const data = req.query;
+    const out = await deleteTeamService(data);
+    const status = out.status || 200;
+    const response = out.response || { message: "success" };
+    res.status(status).json(response);
+} catch (error) {
+    const status = error.status || 500;
+    const message = error.message || "internal server error";
+    res.status(status).json({ message });
+}
+};
+
 module.exports = {
 createTeamController,
 updateTeamController,
 getTeamController,
-getAllTeamsController
+getAllTeamsController,
+deleteTeamController
 };

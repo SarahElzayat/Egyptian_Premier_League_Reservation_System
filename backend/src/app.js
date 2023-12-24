@@ -26,6 +26,10 @@ require("./entities/reservation");
 const { userRouter } = require("./routes/user");
 const { adminRouter } = require("./routes/admin");
 const { matchRouter } = require("./routes/match");
+const { teamRouter } = require("./routes/team");
+const { stadiumRouter } = require("./routes/stadium");
+
+
 class App {
   constructor() {
     this.app = express();
@@ -38,6 +42,9 @@ class App {
     this.app.use("/user", userRouter);
     this.app.use("/admin", adminRouter);
     this.app.use("/match", matchRouter);
+    this.app.use("/team", teamRouter);
+    this.app.use("/stadium", stadiumRouter);
+
   }
   listen() {
     this.app.listen(this.port, () => {

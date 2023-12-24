@@ -18,7 +18,7 @@ const createTeamService = async (data) => {
   //   validate that the team name is valid
   const team = await Team.findOne({ where: { name: name } });
 
-  if (!team) {
+  if (team) {
     throw {
       status: 400,
       message: "invalid team name",
@@ -52,24 +52,15 @@ const updateTeamService = async (data) => {
     };
   }
 
-  //   validate that the team name is valid
-  const team = await Team.findOne({ where: { name: team_name } });
+  //   validate that the team id is found
+  const team = await Team.findOne({ where: { id: id } });
   if (!team) {
     throw {
       status: 400,
-      message: "invalid team name",
+      message: "invalid team id",
     };
   }
-  //   if the user send team_id then check if the it is valid
-  if (id) {
-    const team = await Team.findOne({ where: { id: id } });
-    if (!team) {
-      throw {
-        status: 400,
-        message: "invalid team id",
-      };
-    }
-  }
+
 
   //   update the team
   await Team.update(
@@ -78,7 +69,7 @@ const updateTeamService = async (data) => {
     },
     {
       where: {
-        id,
+        id
       },
     }
   );
@@ -133,6 +124,7 @@ const getAllTeamsService = async (data) => {
       for (let i = 0; i < teams.length; i++) {
         teams[i] = teams[i].dataValues;
       }
+
       return {
         status: 200,
         response: {
@@ -141,10 +133,56 @@ const getAllTeamsService = async (data) => {
       };
 };
 
+const deleteTeamService = async (data) => {
+    const {
+      id,
+      name
+    } = data;
+  
+    //   validate that id is not empty
+    if (!id) {
+      throw {
+        status: 400,
+        message: "team id is required",
+      };
+    }
+  
+    //   validate that the team id is found
+    const team = await Team.findOne({ where: { id: id } });
+    if (!team) {
+      throw {
+        status: 400,
+        message: "invalid team id",
+      };
+    }
+  
+  
+    //   delete the team
+    await Team.destroy(
+      {
+        name
+      },
+      {
+        where: {
+          id
+        },
+      }
+    );
+  
+    console.log("deleted team successfully");
+    return {
+      status: 200,
+      response: {
+        message: "team deleted successfully"
+      },
+    };
+  };
+
 
 module.exports = {
   createTeamService,
   updateTeamService,
   getTeamService,
-  getAllTeamsService
+  getAllTeamsService,
+  deleteTeamService
 };
