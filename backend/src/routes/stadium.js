@@ -1,7 +1,7 @@
 const express = require("express");
 const { authMiddleware } = require("../middlewares/authMiddleWare");
 const stadiumRouter = express.Router();
-const stadiumController = require("../controllers/team.controller");
+const stadiumController = require("../controllers/stadium.controller");
 
 stadiumRouter.post("/", authMiddleware, stadiumController.createStadiumController);
 

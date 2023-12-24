@@ -2,7 +2,8 @@ const {
     createStadiumService,
     updateStadiumService,
     getStadiumService,
-    getAllStadiumsService
+    getAllStadiumsService,
+    deleteStadiumService
   } = require("../services/stadium.service");
   
 const createStadiumController = async (req, res) => {
@@ -60,10 +61,25 @@ try {
 }
 };
 
+const deleteStadiumController = async (req, res) => {
+    try {
+        const data = req.query;
+        const out = await deleteStadiumService(data);
+        const status = out.status || 200;
+        const response = out.response || { message: "success" };
+        res.status(status).json(response);
+    } catch (error) {
+        const status = error.status || 500;
+        const message = error.message || "internal server error";
+        res.status(status).json({ message });
+    }
+    };
+
 module.exports = {
 createStadiumController,
 updateStadiumController,
 getStadiumController,
-getAllStadiumsController
+getAllStadiumsController,
+deleteStadiumController
 };
   
