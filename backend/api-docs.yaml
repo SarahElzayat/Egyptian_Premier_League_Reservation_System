@@ -14,8 +14,8 @@ tags:
 
   - name: match
     description: Everything about matches
-  - name: statium
-    description: Everything about statium
+  - name: stadium
+    description: Everything about stadium
   - name: teams
     description: Everything about teams
   - name: reservation
@@ -156,7 +156,6 @@ paths:
                   message:
                     type: string
                     example: "internal server error"
-
   /admin/delet_user:
     delete:
       summary: delete existing user
@@ -541,6 +540,7 @@ paths:
                   message:
                     type: string
                     example: "internal server error"
+                    
   /match:
     post:
       summary: create new mach
@@ -1181,7 +1181,7 @@ paths:
           schema:
             type: string
         - in: query
-          name: teamname
+          name: team_name
           required: true
           schema:
             type: string
@@ -1249,6 +1249,337 @@ paths:
                         name: "Zamalek"
                       - id: "3"
                         name: "Pyramids"
+
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "invalid parameters"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "internal server error"
+
+  /stadium:
+    post:
+      summary: create new stadium
+      tags:
+        - stadium
+      description: the token must be for manager user
+      security:
+        - bearerAuth: [] # Reference to the security scheme
+      parameters:
+        - in: header
+          name: token
+          description: Bearer token for authentication
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Cairo International Stadium"
+                dimension1:
+                  type: integer
+                  example: 64
+                dimension2:
+                  type: integer
+                  example: 75
+      responses:
+        "201":
+          description: Successful create
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "stadium created successfully"
+                  team:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: "Cairo International Stadium"
+                      dimension1:
+                        type: integer
+                        example: 64
+                      dimension2:
+                        type: integer
+                        example: 75
+                     
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "invalid parameters "
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "internal server error"
+
+    put:
+      summary: Update stadium details
+      tags:
+        - stadium
+      description: token must be from manager user , all feilds in the body is optional , any provided field will be changed. only the id must be provided
+
+      security:
+        - bearerAuth: [] # Reference to the security scheme
+      parameters:
+        - in: header
+          name: token
+          description: Bearer token for authentication
+          required: true
+          schema:
+            type: string
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 2
+                name:
+                  type: string
+                  example: "Cairo International Stadium"
+                dimension1:
+                  type: integer
+                  example: 64
+                dimension2:
+                  type: integer
+                  example: 75
+                
+      responses:
+        "200":
+          description: Successful update
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "team updated successfully"
+                  stadium:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: "Cairo International Stadium"
+                      dimension1:
+                        type: integer
+                        example: 64
+                      dimension2:
+                        type: integer
+                        example: 75
+                      
+
+        "400":
+          description: Bad Request due to invalid parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "stadium already exists"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "internal server error"
+    get:
+      summary: get specific stadium details
+      tags:
+        - stadium
+      description: get specific stadium details , note that there is another endoint to get all stadiums will return as list of elements
+      parameters:
+        - in: query
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: "Cairo International Stadium"
+                  dimension1:
+                    type: integer
+                    example: 64
+                  dimension2:
+                    type: integer
+                    example: 75
+                  
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "invalid id"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "internal server error"
+    delete:
+      summary: delete existing stadium
+      tags:
+        - stadium
+      description: delete existing stadium
+      security:
+        - bearerAuth: [] # Reference to the security scheme
+      parameters:
+        - in: header
+          name: token
+          description: Bearer token for authentication
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: stadium_name
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "stadium deleted successfully"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "invalid stadium or it doesn't exist"
+
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "internal server error"
+  /stadium/all/:
+    get:
+      summary: get list of all stadiums
+      tags:
+        - team
+      description: this endpoint will provide the list for all stadiums,
+
+      responses:
+        "201":
+          description: Successful create
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  stadiums:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: "Cairo International Stadium"
+                        dimension1:
+                          type: integer
+                          example: 64
+                        dimension2:
+                          type: integer
+                          example: 75
+
+                    example:
+                      - id: "1"
+                        name: "Cairo International Stadium"
+                        dimension1: 64
+                        dimension2: 75
+                      - id: "2"
+                        name: "Borg El-Arab Stadium"
+                        dimension1: 44
+                        dimension2: 35
+                      - id: "3"
+                        name: "Al-Salam Stadium"
+                        dimension1: 74
+                        dimension2: 85
 
         "400":
           description: Bad Request
