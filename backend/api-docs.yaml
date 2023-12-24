@@ -982,3 +982,291 @@ paths:
                   message:
                     type: string
                     example: "internal server error"
+  
+  /team:
+    post:
+      summary: create new team
+      tags:
+        - team
+      description: the token must be for manager user
+      security:
+        - bearerAuth: [] # Reference to the security scheme
+      parameters:
+        - in: header
+          name: token
+          description: Bearer token for authentication
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "El-Ahly"
+      responses:
+        "201":
+          description: Successful create
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "team created successfully"
+                  team:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: "El-Ahly"
+                     
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "invalid parameters "
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "internal server error"
+
+    put:
+      summary: Update team details
+      tags:
+        - team
+      description: token must be from manager user , all feilds in the body is optional , any provided field will be changed. only the id must be provided
+
+      security:
+        - bearerAuth: [] # Reference to the security scheme
+      parameters:
+        - in: header
+          name: token
+          description: Bearer token for authentication
+          required: true
+          schema:
+            type: string
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 2
+                name:
+                  type: string
+                  example: "El-Ahly"
+                
+      responses:
+        "200":
+          description: Successful update
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "team updated successfully"
+                  team:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: "El-Ahly"
+                      
+
+        "400":
+          description: Bad Request due to invalid parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "home team and away team can't be the same"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "internal server error"
+    get:
+      summary: get specific team details
+      tags:
+        - team
+      description: get specific team details , note that there is another endoint to get all teams will return as list of elements
+      parameters:
+        - in: query
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    example: "El-Ahly"
+                  
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "invalid id"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "internal server error"
+    delete:
+      summary: delete existing team
+      tags:
+        - team
+      description: delete existing team
+      security:
+        - bearerAuth: [] # Reference to the security scheme
+      parameters:
+        - in: header
+          name: token
+          description: Bearer token for authentication
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: teamname
+          required: true
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "team deleted successfully"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "invalid team or it doesn't exist"
+
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "internal server error"
+  /team/all/:
+    get:
+      summary: get list of all teams
+      tags:
+        - team
+      description: this endpoint will provide the list for all 18 teams,
+
+      responses:
+        "201":
+          description: Successful create
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  teams:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: "El-Ahly"
+
+                    example:
+                      - id: "1"
+                        name: "El-Ahly"
+                      - id: "2"
+                        name: "Zamalek"
+                      - id: "3"
+                        name: "Pyramids"
+
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "invalid parameters"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "internal server error"
