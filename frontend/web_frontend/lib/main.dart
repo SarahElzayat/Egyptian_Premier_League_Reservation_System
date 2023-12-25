@@ -3,8 +3,9 @@ import 'package:web_frontend/src/screens/about_screen.dart';
 import 'package:web_frontend/src/screens/home_screen.dart';
 import 'package:web_frontend/src/screens/login_screen.dart';
 import 'package:web_frontend/src/screens/main_screen.dart';
-import 'package:web_frontend/src/screens/matches_screen.dart';
+import 'package:web_frontend/src/screens/prev_matches_screen.dart';
 import 'package:web_frontend/src/screens/signup_screen.dart';
+import 'package:web_frontend/src/screens/upcoming_matches_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,7 +44,8 @@ class MyApp extends StatelessWidget {
         // When navigating to the "/second" route, build the SecondScreen widget.
         '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),
-        '/matches': (context) => MatchesScreen(),
+        '/upcoming_matches': (context) => UpcomingMatchesScreen(),
+        '/previous_matches': (context) => PreviousMatchesScreen(),
         '/signup': (context) => SignUpScreen(),
         '/about': (context) => AboutScreen()
       },

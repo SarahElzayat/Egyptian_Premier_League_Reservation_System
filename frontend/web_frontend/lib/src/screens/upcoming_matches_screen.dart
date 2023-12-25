@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:web_frontend/src/components/appbar.dart';
 import 'package:web_frontend/src/components/match_component.dart';
 
-class MatchesScreen extends StatefulWidget {
+class UpcomingMatchesScreen extends StatefulWidget {
   @override
-  State<MatchesScreen> createState() => _MatchesScreenState();
+  State<UpcomingMatchesScreen> createState() => _UpcomingMatchesScreenState();
 }
 
-class _MatchesScreenState extends State<MatchesScreen> {
+class _UpcomingMatchesScreenState extends State<UpcomingMatchesScreen> {
   final res = {
     "upcomming": [
       {
@@ -89,7 +89,7 @@ class _MatchesScreenState extends State<MatchesScreen> {
     return Scaffold(
         appBar: AppBarComponent(context,
             // index: 1,
-            title: "Matches"),
+            title: " Upcoming Matches"),
         body: Center(
           child: SizedBox(
             width: MediaQuery.sizeOf(context).width * 0.4,
