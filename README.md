@@ -10,7 +10,7 @@ we will use postgress
 
 - admins
 - users
-- statiums
+- stadiums
 - team
 - matches
 - reservations
@@ -38,12 +38,13 @@ has only
 - address "optional" default is none
 - regesterAt
 
-# 3-statiums
+# 3-stadiums
 
 - id : 'unique' , autoincrement
 - name , string
-- dimntion1 , integer
-- dimentsion2 , integer
+- location
+- dimension , integer
+- dimension2 , integer
 
 # 4-team
 
@@ -58,7 +59,7 @@ Note: there is only 18 team in the DB "from document"
 - Home Team. , will be foregen key to team table
 - Away Team. should not be the same as the home
   team. , will be foregen key to team table
-- Match Venue (One of the stadiums approved by the EFA managers) , will be foregen key to statium table
+- Match Venue (One of the stadiums approved by the EFA managers) , will be foregen key to stadium table
 - Date .
 - Time
 - Main Referee.

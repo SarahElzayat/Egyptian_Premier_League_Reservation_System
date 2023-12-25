@@ -12,8 +12,8 @@ const login = async (req, res) => {
     const response = user.response || { message: "success" };
     res.status(status).json(response);
   } catch (error) {
-    status = error.status || 500;
-    message = error.message || "internal server error";
+    const status = error.status || 500;
+    const message = error.message || "internal server error";
     res.status(status).json({ message });
   }
 };
@@ -26,8 +26,8 @@ const regestration = async (req, res) => {
     const response = user.response || { message: "success" };
     res.status(status).json(response);
   } catch (error) {
-    status = error.status || 500;
-    message = error.message || "internal server error";
+    const status = error.status || 500;
+    const message = error.message || "internal server error";
     res.status(status).json({ message });
   }
 };
@@ -40,8 +40,8 @@ const update = async (req, res) => {
     const response = user.response || { message: "success" };
     res.status(status).json(response);
   } catch (error) {
-    status = error.status || 500;
-    message = error.message || "internal server error";
+    const status = error.status || 500;
+    const message = error.message || "internal server error";
     res.status(status).json({ message });
   }
 };

@@ -14,8 +14,8 @@ const createMatchController = async (req, res) => {
     const response = out.response || { message: "success" };
     res.status(status).json(response);
   } catch (error) {
-    status = error.status || 500;
-    message = error.message || "internal server error";
+    const status = error.status || 500;
+    const message = error.message || "internal server error";
     res.status(status).json({ message });
   }
 };
@@ -28,8 +28,8 @@ const updateMatchController = async (req, res) => {
     const response = out.response || { message: "success" };
     res.status(status).json(response);
   } catch (error) {
-    status = error.status || 500;
-    message = error.message || "internal server error";
+    const status = error.status || 500;
+    const message = error.message || "internal server error";
     res.status(status).json({ message });
   }
 };
@@ -41,8 +41,8 @@ const getMatchController = async (req, res) => {
     const response = out.response || { message: "success" };
     res.status(status).json(response);
   } catch (error) {
-    status = error.status || 500;
-    message = error.message || "internal server error";
+    const status = error.status || 500;
+    const message = error.message || "internal server error";
     res.status(status).json({ message });
   }
 };
@@ -55,8 +55,8 @@ const getAllUpcommingMatchController = async (req, res) => {
     const response = out.response || { message: "success" };
     res.status(status).json(response);
   } catch (error) {
-    status = error.status || 500;
-    message = error.message || "internal server error";
+    const status = error.status || 500;
+    const message = error.message || "internal server error";
     res.status(status).json({ message });
   }
 };
@@ -68,8 +68,8 @@ const getAllPastMatchController = async (req, res) => {
     const response = out.response || { message: "success" };
     res.status(status).json(response);
   } catch (error) {
-    status = error.status || 500;
-    message = error.message || "internal server error";
+    const status = error.status || 500;
+    const message = error.message || "internal server error";
     res.status(status).json({ message });
   }
 };

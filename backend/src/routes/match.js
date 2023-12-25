@@ -11,4 +11,9 @@ matchRouter.get(
   matchController.getAllUpcommingMatchController
 );
 matchRouter.get("/all/past", matchController.getAllPastMatchController);
+matchRouter.post("/",authMiddleware, matchController.getAllPastMatchController);
+matchRouter.put("/",authMiddleware, matchController.getAllPastMatchController);
+matchRouter.delete("/", matchController.getAllPastMatchController);
+matchRouter.get("/", matchController.getAllPastMatchController);
+
 module.exports = { matchRouter };

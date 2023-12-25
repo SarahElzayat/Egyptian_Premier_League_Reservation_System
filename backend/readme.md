@@ -10,7 +10,7 @@ we will use postgress
 
 - admins
 - users
-- statiums
+- stadiums
 - team
 - matches
 - reservations
@@ -36,12 +36,12 @@ has only
 - city
 - address "optional" default is none
 
-# 3-statiums
+# 3-stadiums
 
 - id : 'unique'
 - name
-- dimntion1
-- dimentsion2
+- dimension1
+- dimension2
 
 # 4-team
 
@@ -53,10 +53,10 @@ Note: there is only 18 team in the DB "from document"
 # 5-matches
 
 - id "unique"
-- Home Team. , will be foregen key
+- Home Team. , will be foreign key
 - Away Team. should not be the same as the home
-  team). , will be foregen key
-- Match Venue (One of the stadiums approved by the EFA managers) , will be foregen key
+  team). , will be foreign key
+- Match Venue (One of the stadiums approved by the EFA managers) , will be foreign key
 - Date & Time.
 - Main Referee.
 - Two Linesmen.
@@ -64,7 +64,7 @@ Note: there is only 18 team in the DB "from document"
 # 6- reservations
 
 - id "unique"
-- matches id "foregen key to matches"
-- user "foregen key to users"
+- matches id "foreign key to matches"
+- user "foreign key to users"
 - seat row
 - seat coloum
