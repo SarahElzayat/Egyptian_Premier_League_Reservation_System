@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:web_frontend/src/screens/about_screen.dart';
 import 'package:web_frontend/src/screens/home_screen.dart';
 import 'package:web_frontend/src/screens/login_screen.dart';
 import 'package:web_frontend/src/screens/main_screen.dart';
+import 'package:web_frontend/src/screens/matches_screen.dart';
+import 'package:web_frontend/src/screens/signup_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,6 +43,9 @@ class MyApp extends StatelessWidget {
         // When navigating to the "/second" route, build the SecondScreen widget.
         '/login': (context) => const LoginScreen(),
         '/home': (context) => HomeScreen(),
+        '/matches': (context) => MatchesScreen(),
+        '/signup': (context) => SignUpScreen(),
+        '/about': (context) => AboutScreen()
       },
       // home: MainScreen(),
       debugShowCheckedModeBanner: false,
