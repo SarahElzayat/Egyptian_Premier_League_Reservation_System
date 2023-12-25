@@ -230,71 +230,63 @@ const getMatchService = async (data) => {
 };
 const getAllUpcommingMatchService = async (data) => {
   let currentDate = new Date(); // current date
-  const currentTime = new Date(); // current time
 
+  const currentTime = new Date(); // current time
   const matches = await Match.findAll({
     where: {
       date: {
         [Op.gt]: currentDate, // Matches with date greater than current date
       },
-      // [Op.or]: [
-      //   // Matches with the same date but a later time
-      //   { date: currentDate, time: { [Op.gt]: currentTime } },
-      // ],
     },
   });
-
-  // match_data["reserved_tickets"] = reserved_tickets;
+  const today_matches = await Match.findAll({
+    where: {
+      date: currentDate.setHours(0, 0, 0, 0),
+      time: { [Op.gte]: currentTime.toString().split(" ")[4] },
+    },
+  });
+  let out_matches = [];
+  for (let i = 0; i < today_matches.length; i++) {
+    out_matches.push(today_matches[i].dataValues);
+  }
+  for (let i = 0; i < matches.length; i++) {
+    out_matches.push(matches[i].dataValues);
+  }
   return {
     status: 200,
     response: {
-      match: matches,
+      match: out_matches,
     },
   };
 };
 const getAllPastMatchService = async (data) => {
-  const { id } = data;
-  if (!id) {
-    throw {
-      status: 400,
-      message: "match id is required",
-    };
-  }
-  const match = await Match.findOne({
-    where: { id },
-    include: [
-      { model: Team, as: "home_team" },
-      { model: Team, as: "away_team" },
-      { model: Stadium, as: "match_venue" },
-    ],
+  let currentDate = new Date(); // current date
+  const currentTime = new Date(); // current time
+  const matches = await Match.findAll({
+    where: {
+      date: {
+        [Op.lt]: currentDate.setHours(0, 0, 0, 0), // Matches with date greater than current date
+      },
+    },
   });
-  if (!match) {
-    throw {
-      status: 400,
-      message: "invalid match id",
-    };
-  }
-  let match_data = match.dataValues;
-  let total_tickets =
-    match_data.match_venue.dimension1 * match_data.match_venue.dimension2;
-  let booked_tickets = await Reservation.count({ where: { matchId: id } });
-  match_data["num_vacant_seats"] = total_tickets - booked_tickets;
-  match_data["num_booked_seats"] = booked_tickets;
-  let reserved_tickets = await Reservation.findAll({
-    where: { matchId: id },
-    attributes: ["seat_row", "seat_column"],
+  const today_matches = await Match.findAll({
+    where: {
+      date: currentDate.setHours(0, 0, 0, 0),
+      time: { [Op.lt]: currentTime.toString().split(" ")[4] },
+    },
   });
-  for (let i = 0; i < reserved_tickets.length; i++) {
-    reserved_tickets[i] = [
-      reserved_tickets[i].dataValues.seat_row,
-      reserved_tickets[i].dataValues.seat_column,
-    ];
+
+  let out_matches = [];
+  for (let i = 0; i < today_matches.length; i++) {
+    out_matches.push(today_matches[i].dataValues);
   }
-  match_data["reserved_tickets"] = reserved_tickets;
+  for (let i = 0; i < matches.length; i++) {
+    out_matches.push(matches[i].dataValues);
+  }
   return {
     status: 200,
     response: {
-      match: match_data,
+      match: out_matches,
     },
   };
 };
