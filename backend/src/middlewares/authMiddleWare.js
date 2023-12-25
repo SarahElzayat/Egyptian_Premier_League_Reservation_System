@@ -19,6 +19,7 @@ const authMiddleware = (req, res, next) => {
     }
     // extract the user id from the token and attach it to req object
     req.body.userId = decoded.id;
+    req.query.userId = decoded.id;
     next();
   });
 };
