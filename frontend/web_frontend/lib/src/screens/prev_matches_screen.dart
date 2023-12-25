@@ -97,7 +97,7 @@ class _PreviousMatchesScreenState extends State<PreviousMatchesScreen> {
               children: [
                 for (var match in res["upcomming"]!)
                   MatchComponent(match['home_team'], match['away_team'],
-                      match['match_id'], match['date_time'])
+                      match['match_id'], match['date_time'], context)
               ],
             ),
           ),
