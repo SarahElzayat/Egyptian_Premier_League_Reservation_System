@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:web_frontend/src/screens/home_screen.dart';
+import 'package:web_frontend/src/screens/login_screen.dart';
+import 'package:web_frontend/src/screens/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'FIFA Tickets',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -31,7 +34,14 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: {
+        // When navigating to the "/" route, build the FirstScreen widget.
+        '/': (context) => MainScreen(),
+        // When navigating to the "/second" route, build the SecondScreen widget.
+        '/login': (context) => const LoginScreen(),
+        '/home': (context) => HomeScreen(),
+      },
+      // home: MainScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
