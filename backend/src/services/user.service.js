@@ -18,6 +18,12 @@ const loginService = async (data) => {
       message: "invalid username or password",
     };
   }
+  if (user.dataValues.status !== "approved") {
+    throw {
+      status: 400,
+      message: "wait until approved your account from adminstrator",
+    };
+  }
   //   validate that the password is correct
   const validPassword = password == user.dataValues.password ? true : false;
   if (!validPassword) {
@@ -36,6 +42,7 @@ const loginService = async (data) => {
 };
 
 const registerService = async (data) => {
+  console.log(data);
   const {
     role,
     email,

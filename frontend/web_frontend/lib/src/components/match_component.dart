@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import '../screens/match_info_screen.dart';
 
-Widget MatchComponent(home_team, away_team, match_id, date_time, context) => InkWell(
-      onTap: () => {
-        Navigator.pushNamed(context, '/match_info', arguments: match_id)
-
+Widget MatchComponent(home_team, away_team, match_id, date, time, context) =>
+    InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MatchInfoScreen(
+                    id: match_id,
+                  )),
+        );
       },
+      // {print(match_id)},
+      // {Navigator.push(context, '/match_info', arguments: match_id);},
       child: Container(
         margin: const EdgeInsets.all(10.0),
         padding: const EdgeInsets.all(10.0),
@@ -47,7 +56,11 @@ Widget MatchComponent(home_team, away_team, match_id, date_time, context) => Ink
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
                     color: Colors.blue)),
-            Text(date_time.toString(),
+            Text(date.toString(),
+                style: const TextStyle(fontSize: 16, color: Colors.blue
+                    // fontWeight: FontWeight.bold,
+                    )),
+            Text(time.toString(),
                 style: const TextStyle(fontSize: 16, color: Colors.blue
                     // fontWeight: FontWeight.bold,
                     )),

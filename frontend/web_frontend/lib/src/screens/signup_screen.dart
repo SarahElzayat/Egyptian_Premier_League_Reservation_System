@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:web_frontend/src/components/appbar.dart';
+import "../controller/authentication.dart";
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -38,7 +39,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
     }
   }
+
   // }
+  // call the api and if success go to the home
+  // ignore: non_constant_identifier_names
+  Future<void> handel_signUp(BuildContext context) async {
+    // send all data to the api
+    bool response = await signUp({
+      'username': username,
+      'password': password,
+      'first_name': firstName,
+      'last_name': lastName,
+      'birth_of_date': birthDate,
+      'gender': gender,
+      'city': city,
+      'address': address,
+      'email': email,
+      'role': role,
+    }, context);
+    // if (response) {
+    //   Navigator.pushNamed(context, '/home');
+    // }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,6 +180,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       if (value?.isEmpty ?? true) {
                         return 'Please select your birthday';
                       }
+                      birthDate = value!;
                       return null;
                     },
                   ),
@@ -168,7 +191,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       if (value?.isEmpty ?? true) {
                         return 'Please enter your gender';
                       }
+
                       // Add more validation logic here if needed.
+                      // Check if the entered value is either 'Male' or 'Female'
+                      if (value != 'male' && value != 'female') {
+                        return 'Please enter either "Male" or "Female"';
+                      }
                       return null;
                     },
                     onChanged: (value) {
@@ -217,10 +245,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   TextFormField(
                     decoration:
-                        InputDecoration(labelText: 'Role: Manager/ Fan'),
+                        InputDecoration(labelText: 'Role: manager/ fan'),
                     validator: (value) {
                       if (value?.isEmpty ?? true) {
                         return 'Please enter your role';
+                      }
+                      // Check if the entered value is either 'Male' or 'Female'
+                      if (value != 'manager' && value != 'fan') {
+                        return 'Please enter either "manager" or "fan"';
                       }
                       // Add role validation logic here if needed.
                       return null;
@@ -242,17 +274,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         // Form is valid, you can process the data here.
                         // For example, send it to an API or save it locally.
                         // You can access the form values using the variables you declared earlier.
-                        print('Username: $username');
-                        print('Password: $password');
-                        print('First Name: $firstName');
-                        print('Last Name: $lastName');
-                        print('Birth Date: $birthDate');
-                        print('Gender: $gender');
-                        print('City: $city');
-                        print('Address: $address');
-                        print('Email Address: $email');
-                        print('Role: $role');
-
+                        // print('Username: $username');
+                        // print('Password: $password');
+                        // print('First Name: $firstName');
+                        // print('Last Name: $lastName');
+                        // print('Birth Date: $birthDate');
+                        // print('Gender: $gender');
+                        // print('City: $city');
+                        // print('Address: $address');
+                        // print('Email Address: $email');
+                        // print('Role: $role');
+                        handel_signUp(context);
                         // TODO Call SIGN UP API
                       }
                     },

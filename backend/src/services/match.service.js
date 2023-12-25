@@ -238,12 +238,46 @@ const getAllUpcommingMatchService = async (data) => {
         [Op.gt]: currentDate, // Matches with date greater than current date
       },
     },
+    include: [
+      {
+        model: Team,
+        as: "home_team", // This 'as' should match the alias you used when defining the association
+        attributes: ["name"], // Replace 'name' with the actual field name in the Team table
+      },
+      {
+        model: Team,
+        as: "away_team", // This 'as' should match the alias you used when defining the association
+        attributes: ["name"], // Replace 'name' with the actual field name in the Team table
+      },
+      {
+        model: Stadium,
+        as: "match_venue", // This 'as' should match the alias you used when defining the association
+        attributes: ["name"], // Replace 'name' with the actual field name in the Stadium table
+      },
+    ],
   });
   const today_matches = await Match.findAll({
     where: {
       date: currentDate.setHours(0, 0, 0, 0),
       time: { [Op.gte]: currentTime.toString().split(" ")[4] },
     },
+    include: [
+      {
+        model: Team,
+        as: "home_team", // This 'as' should match the alias you used when defining the association
+        attributes: ["name"], // Replace 'name' with the actual field name in the Team table
+      },
+      {
+        model: Team,
+        as: "away_team", // This 'as' should match the alias you used when defining the association
+        attributes: ["name"], // Replace 'name' with the actual field name in the Team table
+      },
+      {
+        model: Stadium,
+        as: "match_venue", // This 'as' should match the alias you used when defining the association
+        attributes: ["name"], // Replace 'name' with the actual field name in the Stadium table
+      },
+    ],
   });
   let out_matches = [];
   for (let i = 0; i < today_matches.length; i++) {
@@ -268,12 +302,46 @@ const getAllPastMatchService = async (data) => {
         [Op.lt]: currentDate.setHours(0, 0, 0, 0), // Matches with date greater than current date
       },
     },
+    include: [
+      {
+        model: Team,
+        as: "home_team", // This 'as' should match the alias you used when defining the association
+        attributes: ["name"], // Replace 'name' with the actual field name in the Team table
+      },
+      {
+        model: Team,
+        as: "away_team", // This 'as' should match the alias you used when defining the association
+        attributes: ["name"], // Replace 'name' with the actual field name in the Team table
+      },
+      {
+        model: Stadium,
+        as: "match_venue", // This 'as' should match the alias you used when defining the association
+        attributes: ["name"], // Replace 'name' with the actual field name in the Stadium table
+      },
+    ],
   });
   const today_matches = await Match.findAll({
     where: {
       date: currentDate.setHours(0, 0, 0, 0),
       time: { [Op.lt]: currentTime.toString().split(" ")[4] },
     },
+    include: [
+      {
+        model: Team,
+        as: "home_team", // This 'as' should match the alias you used when defining the association
+        attributes: ["name"], // Replace 'name' with the actual field name in the Team table
+      },
+      {
+        model: Team,
+        as: "away_team", // This 'as' should match the alias you used when defining the association
+        attributes: ["name"], // Replace 'name' with the actual field name in the Team table
+      },
+      {
+        model: Stadium,
+        as: "match_venue", // This 'as' should match the alias you used when defining the association
+        attributes: ["name"], // Replace 'name' with the actual field name in the Stadium table
+      },
+    ],
   });
 
   let out_matches = [];

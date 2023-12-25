@@ -96,8 +96,13 @@ class _PreviousMatchesScreenState extends State<PreviousMatchesScreen> {
             child: ListView(
               children: [
                 for (var match in res["upcomming"]!)
-                  MatchComponent(match['home_team'], match['away_team'],
-                      match['match_id'], match['date_time'], context)
+                  MatchComponent(
+                      match['home_team'],
+                      match['away_team'],
+                      match['match_id'],
+                      match['date_time'],
+                      match['date_time'],
+                      context)
               ],
             ),
           ),

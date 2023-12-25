@@ -6,7 +6,9 @@ const {
 
 const reserveTicket = async (req, res) => {
   try {
+    console.log("loo");
     const data = req.body;
+    console.log(data);
     const out = await reserveTicketService(data);
     const status = out.status || 200;
     const response = out.response || { message: "success" };

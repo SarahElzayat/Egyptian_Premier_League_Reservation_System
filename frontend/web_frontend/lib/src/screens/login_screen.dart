@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:web_frontend/src/components/appbar.dart';
+import "../controller/authentication.dart";
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -10,6 +11,16 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String username = '';
   String password = '';
+  bool error = false;
+  String errorMessage = '';
+  // ignore: non_constant_identifier_names
+  Future<void> handel_login(BuildContext context) async {
+    bool response =
+        await login({'username': username, 'password': password}, context);
+    if (response) {
+      Navigator.pushNamed(context, '/home');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,13 +80,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (_formKey.currentState!.validate()) {
                         // Form is valid, you can perform login logic here.
                         // Access the username and password using the variables you declared earlier.
-                        print('Username: $username');
-                        print('Password: $password');
+                        // print('Username: $username');
+                        // print('Password: $password');
 
                         // TODO
+                        // send username and password to api , in file controller / authentication.dart
+                        // if success
+                        // save token in shared preferences
+                        // Navigator.pushNamed(context, '/home');
+                        // else
+                        // show error message
+                        handel_login(context);
                         // call login api
                         // cache token
-                        Navigator.pushNamed(context, '/home');
+                        // Navigator.pushNamed(context, '/home');
 
                         // You can add authentication logic here, such as checking credentials.
                       }
