@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         // When navigating to the "/" route, build the FirstScreen widget.
         '/': (context) => MainScreen(),
         // When navigating to the "/second" route, build the SecondScreen widget.
-        '/login': (context) => const LoginScreen(),
+        '/login': (context) => LoginScreen(),
         '/home': (context) => HomeScreen(),
         '/matches': (context) => MatchesScreen(),
         '/signup': (context) => SignUpScreen(),

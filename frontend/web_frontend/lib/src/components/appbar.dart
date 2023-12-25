@@ -37,9 +37,9 @@ import 'package:flutter/material.dart';
 
 final screensTitles = ['Home', 'Matches', 'Login', 'Sign Up', 'About', 'FIFA'];
 
-AppBar AppBarComponent(context, {index = 5}) {
+AppBar AppBarComponent(context, {index = 5, title = "FIFA"}) {
   return AppBar(
-    title: Text(screensTitles[index]),
+    title: Text(title),
     automaticallyImplyLeading: false,
     actions: <Widget>[
       TextButton(
