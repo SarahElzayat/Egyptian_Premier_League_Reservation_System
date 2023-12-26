@@ -7,7 +7,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
-const url = "http://192.168.1.87:3005";
+import '../shared/constants/constants.dart' as cons;
+
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
+const url = cons.url;
 
 Future<bool> login(Map<String, String> query, BuildContext context) async {
   final Response response = await http
@@ -98,6 +101,17 @@ Future<bool> check_login() async {
   }
 }
 
+Future<User> get_user() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? users = prefs.getString('user');
+  if (users == null) {
+    return User();
+  } else {
+    User user = User.fromJson(json.decode(users));
+    return user;
+  }
+}
+
 Future<bool> check_user_is_manager() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? users = prefs.getString('user');
@@ -111,4 +125,11 @@ Future<bool> check_user_is_manager() async {
       return false;
     }
   }
+}
+
+Future<bool> logout() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.remove('token');
+  prefs.remove('user');
+  return true;
 }

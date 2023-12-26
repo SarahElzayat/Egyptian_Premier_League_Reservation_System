@@ -8,7 +8,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/match.dart';
 
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
-const url = "http://192.168.1.87:3005";
+import '../shared/constants/constants.dart' as cons;
+
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
+const url = cons.url;
 
 Future<List<Match>> getUpcommingMatchs() async {
   final Response response =

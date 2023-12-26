@@ -9,6 +9,8 @@ import 'package:web_frontend/src/screens/match_info_screen.dart';
 import 'package:web_frontend/src/screens/prev_matches_screen.dart';
 import 'package:web_frontend/src/screens/signup_screen.dart';
 import 'package:web_frontend/src/screens/upcoming_matches_screen.dart';
+import 'package:web_frontend/src/screens/profile_screen.dart';
+import 'package:web_frontend/src/screens/tickets_screen.dart';
 
 void main() async {
   // await dotenv.load();
@@ -52,7 +54,9 @@ class MyApp extends StatelessWidget {
         '/previous_matches': (context) => PreviousMatchesScreen(),
         '/signup': (context) => SignUpScreen(),
         '/about': (context) => AboutScreen(),
+        '/profile': (context) => profile(),
         '/match_info': (context) => MatchInfoScreen(id: 1),
+        '/tickets': (context) => TicketsScreen(),
       },
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         // Mouse dragging enabled for this demo

@@ -60,6 +60,9 @@ AppBar AppBarComponent(context, {index = 5, title = "FIFA"}) {
       TextButton(
           onPressed: () => {Navigator.pushNamed(context, '/about')},
           child: const Text('About')),
+      TextButton(
+          onPressed: () => {Navigator.pushNamed(context, '/profile')},
+          child: const Text('profile')),
     ],
   );
 }

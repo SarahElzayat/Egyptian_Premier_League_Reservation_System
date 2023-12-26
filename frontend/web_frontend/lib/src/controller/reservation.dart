@@ -1,13 +1,17 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:web_frontend/src/models/ticket.dart';
 // import the user module
 import 'package:web_frontend/src/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import '../models/ticket.dart';
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../shared/constants/constants.dart' as cons;
 
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
-const url = "http://192.168.1.87:3005";
+const url = cons.url;
 
 Future<void> reserved_ticket(
     Map<String, Object> data, BuildContext context) async {
@@ -30,7 +34,7 @@ Future<void> reserved_ticket(
             return AlertDialog(
               title: const Text("Success"),
               content: Text(json.decode(response.body)['message'] ??
-                  "Failed to reserve ticket"),
+                  "reserve ticket successfully"),
               actions: <Widget>[
                 ElevatedButton(
                   child: Text("OK"),
@@ -45,4 +49,41 @@ Future<void> reserved_ticket(
       }
     });
   });
+}
+
+Future<tickets> get_my_tickets(BuildContext context) async {
+  // call end point reservation/me and send token to the header
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String token = prefs.getString('token') ?? "";
+  final Response response = await http.get(Uri.parse('$url/reservation/me'),
+      headers: {'Content-type': 'application/json', 'token': token});
+  if (response.statusCode == 200) {
+    tickets data = tickets.fromJson(json.decode(response.body));
+    // for (var ticket in json.decode(response.body)['reservations']) {
+    //   // tickets.add(ticket.fromJson(ticket));
+    //   print(ticket);
+    // }
+    return data;
+  } else {
+    // pop page and show error message
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("error message"),
+          content: Text(json.decode(response.body)['message'] ??
+              "Failed to load match details"),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Dismiss the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  return tickets();
 }

@@ -1,6 +1,8 @@
 const { User } = require("../entities/user");
 const { Reservation } = require("../entities/reservation");
 const { Match } = require("../entities/match");
+const { Team } = require("../entities/team");
+const { Stadium } = require("../entities/Stadium");
 const reserveTicketService = async (data) => {
   const { matchId, userId, seat_row, seat_column, card_number, PIN } = data;
   if (
@@ -105,6 +107,15 @@ const getReservationsService = async (data) => {
 
   for (let i = 0; i < out.length; i++) {
     out[i] = out[i].dataValues;
+    const mactch = await Match.findOne({
+      where: { id: out[i].matchId },
+      include: [
+        { model: Team, as: "home_team" },
+        { model: Team, as: "away_team" },
+        { model: Stadium, as: "match_venue" },
+      ],
+    });
+    out[i] = { ...out[i], ...mactch.dataValues };
   }
   return {
     status: 200,
