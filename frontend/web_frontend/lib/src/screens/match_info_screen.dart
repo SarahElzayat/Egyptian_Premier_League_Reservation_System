@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:web_frontend/src/controller/authentication.dart';
 import 'package:web_frontend/src/controller/match.dart';
 import 'package:web_frontend/src/controller/reservation.dart';
+import 'package:web_frontend/src/screens/edit_match.dart';
 import '../models/match.dart';
 
 import 'dart:math' as math;
@@ -32,7 +33,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> {
   int dimension2 = 0;
 
   Timer? _timer;
-
+  bool is_manager = false;
   void _startTimer(BuildContext context) {
     _timer = Timer.periodic(Duration(milliseconds: 1000), (timer) {
       getMatch(context);
@@ -40,6 +41,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> {
   }
 
   Future<void> getMatch(BuildContext context) async {
+    is_manager = await check_user_is_manager();
     Map<String, Object> out = await getMatchDetails(widget.id ?? 1, context);
     setState(() {
       if (out['sucess'] == true) {
@@ -141,10 +143,29 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          'Match Information',
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Match Information',
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
+                            ),
+                            if (is_manager)
+                              TextButton(
+                                child: Text('Edit'),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            EditMatchScreen(match: match)),
+                                  );
+                                  // Navigator.pushNamed(context, '/edit_match',
+                                  //     arguments: match.id);
+                                },
+                              ),
+                          ],
                         ),
                         SizedBox(height: 10),
                         matchDetailRow(

@@ -13,6 +13,8 @@ import 'package:web_frontend/src/screens/signup_screen.dart';
 import 'package:web_frontend/src/screens/upcoming_matches_screen.dart';
 import 'package:web_frontend/src/screens/profile_screen.dart';
 import 'package:web_frontend/src/screens/tickets_screen.dart';
+import 'package:web_frontend/src/screens/edit_match.dart';
+import './src/models/match.dart';
 
 void main() async {
   // await dotenv.load();
@@ -65,6 +67,9 @@ class MyApp extends StatelessWidget {
         '/admin_login': (context) =>
             LoginScreen(admin: true), // admin login screen
         '/accept_users': (context) => AcceptUsersScreen(),
+        '/edit_match': (context) => EditMatchScreen(
+              match: Match(),
+            ),
       },
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         // Mouse dragging enabled for this demo

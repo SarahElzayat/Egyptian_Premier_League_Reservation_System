@@ -81,6 +81,8 @@ const createMatchService = async (data) => {
 };
 
 const updateMatchService = async (data) => {
+  console.log(data);
+  // return;
   const {
     id,
     home_team_id,

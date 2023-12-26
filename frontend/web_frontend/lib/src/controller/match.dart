@@ -67,3 +67,39 @@ Future<Map<String, Object>> getMatchDetails(
     return {'sucess': false, 'match': Match()};
   }
 }
+
+Future<void> update_match(Match macth, BuildContext context) async {
+  // load the token from the local storage and send it in the header
+  SharedPreferences.getInstance().then((prefs) {
+    String token = prefs.getString('token') ?? "";
+    http.put(Uri.parse('$url/match'),
+        body: json.encode(macth.toJson()),
+        headers: {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          'token': token
+        }).then((response) {
+      if (response.statusCode == 200) {
+        // show success message
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Success"),
+              content: Text(json.decode(response.body)['message'] ??
+                  "updated match successfully"),
+              actions: <Widget>[
+                ElevatedButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Dismiss the dialog
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
+  });
+}
