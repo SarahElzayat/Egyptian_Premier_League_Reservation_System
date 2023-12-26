@@ -28,6 +28,19 @@ Future<List<Match>> getUpcommingMatchs() async {
   }
 }
 
+Future<List<Match>> getPrevMatches() async {
+  final Response response = await http.get(Uri.parse('$url/match/all/past'));
+  if (response.statusCode == 200) {
+    List<Match> matches = [];
+    for (var match in json.decode(response.body)['match']) {
+      matches.add(Match.fromJson(match));
+    }
+    return matches;
+  } else {
+    return [];
+  }
+}
+
 Future<Map<String, Object>> getMatchDetails(
     int id, BuildContext context) async {
   final Response response = await http.get(Uri.parse('$url/match?id=$id'));
