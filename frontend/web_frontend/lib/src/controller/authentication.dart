@@ -11,7 +11,8 @@ import 'package:flutter/material.dart';
 // const url = "http://192.168.1.6/3005";
 const url = baseUrl;
 
-Future<bool> login(Map<String, String> query, BuildContext context) async {
+Future<bool> login(Map<String, String> query, BuildContext context,
+    {admin = false}) async {
   print(query);
   final Response response = await http
       .post(Uri.parse('$url/user/login'), body: json.encode(query), headers: {
@@ -26,6 +27,10 @@ Future<bool> login(Map<String, String> query, BuildContext context) async {
     prefs.setString('token', token);
     // save the user in the local storage
     prefs.setString('user', json.encode(user));
+
+    if (admin) {
+      prefs.setString('admin', admin);
+    }
     return true;
   } else {
     // ignore: use_build_context_synchronously

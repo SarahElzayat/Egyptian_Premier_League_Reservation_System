@@ -3,6 +3,8 @@ import 'package:web_frontend/src/components/appbar.dart';
 import "../controller/authentication.dart";
 
 class LoginScreen extends StatefulWidget {
+  bool admin;
+  LoginScreen({super.key, required this.admin});
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -14,11 +16,22 @@ class _LoginScreenState extends State<LoginScreen> {
   bool error = false;
   String errorMessage = '';
   // ignore: non_constant_identifier_names
-  Future<void> handel_login(BuildContext context) async {
+  Future<void> handel_login(BuildContext context, admin) async {
+    bool response = await login(
+        {'username': username, 'password': password}, context,
+        admin: admin);
+    if (response) {
+      admin
+          ? Navigator.pushNamed(context, '/accept_users')
+          : Navigator.pushNamed(context, '/home');
+    }
+  }
+
+  Future<void> handel_login_admin(BuildContext context) async {
     bool response =
         await login({'username': username, 'password': password}, context);
     if (response) {
-      Navigator.pushNamed(context, '/home');
+      Navigator.pushNamed(context, '/accept_users');
     }
   }
 
@@ -90,7 +103,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         // Navigator.pushNamed(context, '/home');
                         // else
                         // show error message
-                        handel_login(context);
+
+                        handel_login(context, widget.admin);
                         // call login api
                         // cache token
                         // Navigator.pushNamed(context, '/home');

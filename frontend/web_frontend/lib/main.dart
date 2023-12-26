@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:web_frontend/src/screens/about_screen.dart';
+import 'package:web_frontend/src/screens/accept_users.dart';
 import 'package:web_frontend/src/screens/add_matches.dart';
 import 'package:web_frontend/src/screens/home_screen.dart';
 import 'package:web_frontend/src/screens/login_screen.dart';
@@ -47,15 +48,19 @@ class MyApp extends StatelessWidget {
         // When navigating to the "/" route, build the FirstScreen widget.
         '/': (context) => MainScreen(),
         // When navigating to the "/second" route, build the SecondScreen widget.
-        '/login': (context) => LoginScreen(),
+        '/login': (context) => LoginScreen(
+              admin: false,
+            ),
         '/home': (context) => HomeScreen(),
         '/upcoming_matches': (context) => UpcomingMatchesScreen(),
         '/previous_matches': (context) => PreviousMatchesScreen(),
         '/signup': (context) => SignUpScreen(),
         '/about': (context) => AboutScreen(),
         '/match_info': (context) => MatchInfoScreen(id: 1),
-        '/add_match': (context) => AddMatchesScreen()
-
+        '/add_match': (context) => AddMatchesScreen(),
+        '/admin_login': (context) =>
+            LoginScreen(admin: true), // admin login screen
+        '/accept_users': (context) => AcceptUsersScreen(),
       },
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         // Mouse dragging enabled for this demo
