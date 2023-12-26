@@ -99,6 +99,26 @@ Future<void> update_match(Match macth, BuildContext context) async {
             );
           },
         );
+      } else {
+        // show error message
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("error message"),
+              content: Text(json.decode(response.body)['message'] ??
+                  "Failed to update match"),
+              actions: <Widget>[
+                ElevatedButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Dismiss the dialog
+                  },
+                ),
+              ],
+            );
+          },
+        );
       }
     });
   });
