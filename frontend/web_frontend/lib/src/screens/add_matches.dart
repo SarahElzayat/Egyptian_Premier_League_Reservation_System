@@ -15,33 +15,35 @@ class AddMatchesScreen extends StatefulWidget {
 }
 
 class _AddMatchesScreenState extends State<AddMatchesScreen> {
-  String? selectedHomeTeam;
-  String? selectedAwayTeam;
+  dynamic? selectedAwayTeam;
+  dynamic? selectedHomeTeam;
   String? selectedReferee;
-  String? matchDate;
+  // String? matchDate;
   String? linesman1;
   String? linesman2;
-  String? venue;
-  // List<String> teams = ['Team A', 'Team B', 'Team C', 'Team D'];
+  dynamic? venue;
   List<dynamic> teams = [];
   List<dynamic> venues = [];
-  final referees = ['Referee A', 'Referee B', 'Referee C', 'Referee D'];
-  final linesmen = ['Linesman A', 'Linesman B', 'Linesman C', 'Linesman D'];
-  // final venues = ['Venue A', 'Venue B', 'Venue C', 'Venue D'];
-  DateTime? selectedDate;
+  DateTime? matchDate;
   TextEditingController birthdayController = TextEditingController();
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
+      lastDate: DateTime(2500),
     );
-    if (picked != null && picked != selectedDate) {
+    if (picked != null && picked != matchDate) {
       setState(() {
-        selectedDate = picked;
+        matchDate = picked;
+
         birthdayController.text =
-            "${picked.toLocal()}".split(' ')[0]; // Format the date as needed
+            "${picked.toLocal()}".split(' ')[0].toString().split('-')[1] +
+                "-" +
+                "${picked.toLocal()}".split(' ')[0].toString().split('-')[2] +
+                "-" +
+                "${picked.toLocal()}".split(' ')[0].toString().split('-')[0];
+        print(matchDate);
       });
     }
   }
@@ -59,6 +61,84 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
     if (timeOfDay != null && timeOfDay != selectedTime) {
       setState(() {
         selectedTime = timeOfDay;
+
+        // new varianle with the value of time a
+      });
+    }
+  }
+
+  // add match function
+  Future<void> handel_add_match(BuildContext context) async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    print(token);
+    print(selectedHomeTeam['id']);
+    print(selectedAwayTeam['id']);
+    print(selectedReferee);
+    print(linesman1);
+    print(linesman2);
+    print(birthdayController.text);
+    print(selectedTime);
+    print(venue['id']);
+    try {
+      final response = await http.post(Uri.parse('$url/match'),
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+            'token': '$token'
+          },
+          body: jsonEncode({
+            "home_team_id": selectedHomeTeam['id'],
+            "away_team_id": selectedAwayTeam['id'],
+            "match_venue_id": venue['id'],
+            // "date": matchDate.toString(),
+            "date": birthdayController.text,
+            "time": '${selectedTime?.hour}:${selectedTime?.minute}',
+            "main_referee": selectedReferee,
+            "linesmen1": linesman1,
+            "linesmen2": linesman2,
+          }));
+
+      if (response.statusCode == 201) {
+        final jsonData = json.decode(response.body);
+        print(jsonData);
+        setState(() {
+          print('tmam');
+          // navigate
+        });
+        Navigator.pushNamed(context, '/upcoming_matches');
+      } else {
+        setState(() {
+          print('msh mam');
+          print(json.decode(response.body));
+
+          // show the error dialog
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("error message"),
+                content: Text(json.decode(response.body)['message'] ??
+                    "Failed to add match"),
+                actions: <Widget>[
+                  ElevatedButton(
+                    child: Text("OK"),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Dismiss the dialog
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+
+          // data = "Failed to load data!";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        print('shit');
+        // data = "Error occurred: $e";
       });
     }
   }
@@ -85,7 +165,7 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
         final jsonData = json.decode(response.body);
         print(jsonData);
         setState(() {
-          teams = jsonData['team']; // Change according to your JSON structure
+          teams = jsonData['team']; //r Change according to your JSON structure
           // print(teams);
         });
       } else {
@@ -116,8 +196,7 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
         print(jsonData);
         setState(() {
           venues =
-              jsonData['stadiums']; // Change according to your JSON structure
-          // print(teams);
+              jsonData['stadium']; // Change according to your JSON structure
         });
       } else {
         setState(() {
@@ -156,12 +235,18 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
                             onChanged: (newValue) {
                               setState(() {
                                 selectedHomeTeam = newValue;
+                                // You might also want to reset the away team if it's the same as the home team
+                                if (selectedAwayTeam == newValue) {
+                                  selectedAwayTeam = null;
+                                }
                               });
                             },
-                            items: teams.map<DropdownMenuItem<dynamic>>(
-                                (dynamic value) {
+                            items: teams
+                                .where((team) => team != selectedAwayTeam)
+                                .map<DropdownMenuItem<dynamic>>(
+                                    (dynamic value) {
                               return DropdownMenuItem<dynamic>(
-                                value: value['name'].toString(),
+                                value: value,
                                 child: Text(value['name'].toString()),
                               );
                             }).toList(),
@@ -177,87 +262,19 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
                             onChanged: (newValue) {
                               setState(() {
                                 selectedAwayTeam = newValue;
+                                // Similar to above, reset the home team if it's the same as the away team
+                                if (selectedHomeTeam == newValue) {
+                                  selectedHomeTeam = null;
+                                }
                               });
                             },
-                            items: teams.map<DropdownMenuItem<dynamic>>(
-                                (dynamic value) {
+                            items: teams
+                                .where((team) => team != selectedHomeTeam)
+                                .map<DropdownMenuItem<dynamic>>(
+                                    (dynamic value) {
                               return DropdownMenuItem<dynamic>(
-                                value: value['name'].toString(),
+                                value: value,
                                 child: Text(value['name'].toString()),
-                              );
-                            }).toList(),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          Text('Linesman 1:'),
-                          DropdownButton<String>(
-                            value: linesman1,
-                            onChanged: (newValue) {
-                              setState(() {
-                                linesman1 = newValue!;
-                              });
-                            },
-                            items: linesmen
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 50),
-                      Column(
-                        children: [
-                          Text('Linesman 2:'),
-                          DropdownButton<dynamic>(
-                            value: linesman2,
-                            onChanged: (newValue) {
-                              setState(() {
-                                linesman2 = newValue!;
-                              });
-                            },
-                            items: linesmen
-                                .map<DropdownMenuItem<dynamic>>((String value) {
-                              return DropdownMenuItem<dynamic>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-
-                  // SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          Text('Referee:'),
-                          DropdownButton<String>(
-                            value: selectedReferee,
-                            onChanged: (newValue) {
-                              setState(() {
-                                selectedReferee = newValue;
-                              });
-                            },
-                            items: referees
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
                               );
                             }).toList(),
                           ),
@@ -271,13 +288,14 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
                             value: venue,
                             onChanged: (newValue) {
                               setState(() {
-                                selectedReferee = newValue;
+                                venue = newValue;
+                                // You might also want to reset the away team if it's the same as the home team
                               });
                             },
                             items: venues.map<DropdownMenuItem<dynamic>>(
                                 (dynamic value) {
                               return DropdownMenuItem<dynamic>(
-                                value: value['name'].toString(),
+                                value: value,
                                 child: Text(value['name'].toString()),
                               );
                             }).toList(),
@@ -287,8 +305,29 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
                     ],
                   ),
 
+                  TextFormField(
+                      decoration: InputDecoration(labelText: 'Linesman 1'),
+                      onChanged: (value) {
+                        setState(() {
+                          linesman1 = value;
+                        });
+                      }),
+                  TextFormField(
+                      decoration: InputDecoration(labelText: 'Linesman 2'),
+                      onChanged: (value) {
+                        setState(() {
+                          linesman2 = value;
+                        });
+                      }),
+                  TextFormField(
+                      decoration: InputDecoration(labelText: 'Referee'),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedReferee = value;
+                        });
+                      }),
+
                   SizedBox(
-                    width: 200,
                     child: TextFormField(
                       decoration: InputDecoration(
                         labelText: 'Date',
@@ -302,13 +341,15 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
                       ),
                       controller: birthdayController,
                       readOnly: true,
-                      validator: (value) {
-                        if (value?.isEmpty ?? true) {
-                          return 'Please select the date';
-                        }
-                        matchDate = value!;
-                        return null;
-                      },
+                      // validator: (value) {
+                      //   if (value?.isEmpty ?? true) {
+                      //     return 'Please select the date';
+                      //   }
+                      //   matchDate = value;
+                      //   print('DAAAAAAAATE');
+                      //   print(value);
+                      //   return null;
+                      // },
                     ),
                   ),
                   SizedBox(height: 20),
@@ -330,8 +371,18 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
                       ),
                     ],
                   ),
+
+                  SizedBox(
+                    height: 50,
+                  ),
                   // Add more widgets here for other match details
-                  TextButton(onPressed: () {}, child: Text("Add Match"))
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurple,
+                        foregroundColor: Colors.white,
+                      ),
+                      onPressed: () => handel_add_match(context),
+                      child: Text("Add Match"))
                 ],
               ),
             ),

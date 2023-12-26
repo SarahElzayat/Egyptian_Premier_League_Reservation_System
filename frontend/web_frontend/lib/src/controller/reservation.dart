@@ -32,7 +32,7 @@ Future<void> reserved_ticket(
             return AlertDialog(
               title: const Text("Success"),
               content: Text(json.decode(response.body)['message'] ??
-                  "Failed to reserve ticket"),
+                  "Ticket Reserved Successfully"),
               actions: <Widget>[
                 ElevatedButton(
                   child: Text("OK"),
