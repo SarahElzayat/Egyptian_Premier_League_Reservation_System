@@ -22,10 +22,12 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
   String? linesman1;
   String? linesman2;
   String? venue;
-  final teams = ['Team A', 'Team B', 'Team C', 'Team D'];
+  // List<String> teams = ['Team A', 'Team B', 'Team C', 'Team D'];
+  List<dynamic> teams = [];
+  List<dynamic> venues = [];
   final referees = ['Referee A', 'Referee B', 'Referee C', 'Referee D'];
   final linesmen = ['Linesman A', 'Linesman B', 'Linesman C', 'Linesman D'];
-  final venues = ['Venue A', 'Venue B', 'Venue C', 'Venue D'];
+  // final venues = ['Venue A', 'Venue B', 'Venue C', 'Venue D'];
   DateTime? selectedDate;
   TextEditingController birthdayController = TextEditingController();
   Future<void> _selectDate(BuildContext context) async {
@@ -64,10 +66,11 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
   @override
   void initState() {
     super.initState();
-    _fetchData();
+    _getTeams();
+    _getVenues();
   }
 
-  Future<void> _fetchData() async {
+  Future<void> _getTeams() async {
     var prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
     print(token);
@@ -75,14 +78,46 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
       final response = await http.get(Uri.parse('$url/team/all'), headers: {
         'Content-type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token'
+        'token': '$token'
       });
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         print(jsonData);
         setState(() {
-          // data = jsonData['someKey']; // Change according to your JSON structure
+          teams = jsonData['team']; // Change according to your JSON structure
+          // print(teams);
+        });
+      } else {
+        setState(() {
+          // data = "Failed to load data!";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        // data = "Error occurred: $e";
+      });
+    }
+  }
+
+  Future<void> _getVenues() async {
+    var prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    print(token);
+    try {
+      final response = await http.get(Uri.parse('$url/stadium/all'), headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'token': '$token'
+      });
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        print(jsonData);
+        setState(() {
+          venues =
+              jsonData['stadiums']; // Change according to your JSON structure
+          // print(teams);
         });
       } else {
         setState(() {
@@ -116,18 +151,18 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
                       Column(
                         children: [
                           Text('Home Team:'),
-                          DropdownButton<String>(
+                          DropdownButton<dynamic>(
                             value: selectedHomeTeam,
                             onChanged: (newValue) {
                               setState(() {
                                 selectedHomeTeam = newValue;
                               });
                             },
-                            items: teams
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
+                            items: teams.map<DropdownMenuItem<dynamic>>(
+                                (dynamic value) {
+                              return DropdownMenuItem<dynamic>(
+                                value: value['name'].toString(),
+                                child: Text(value['name'].toString()),
                               );
                             }).toList(),
                           ),
@@ -137,18 +172,18 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
                       Column(
                         children: [
                           Text('Away Team:'),
-                          DropdownButton<String>(
+                          DropdownButton<dynamic>(
                             value: selectedAwayTeam,
                             onChanged: (newValue) {
                               setState(() {
                                 selectedAwayTeam = newValue;
                               });
                             },
-                            items: teams
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
+                            items: teams.map<DropdownMenuItem<dynamic>>(
+                                (dynamic value) {
+                              return DropdownMenuItem<dynamic>(
+                                value: value['name'].toString(),
+                                child: Text(value['name'].toString()),
                               );
                             }).toList(),
                           ),
@@ -184,7 +219,7 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
                       Column(
                         children: [
                           Text('Linesman 2:'),
-                          DropdownButton<String>(
+                          DropdownButton<dynamic>(
                             value: linesman2,
                             onChanged: (newValue) {
                               setState(() {
@@ -192,8 +227,8 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
                               });
                             },
                             items: linesmen
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
+                                .map<DropdownMenuItem<dynamic>>((String value) {
+                              return DropdownMenuItem<dynamic>(
                                 value: value,
                                 child: Text(value),
                               );
@@ -232,18 +267,18 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
                       Column(
                         children: [
                           Text('Venue:'),
-                          DropdownButton<String>(
+                          DropdownButton<dynamic>(
                             value: venue,
                             onChanged: (newValue) {
                               setState(() {
                                 selectedReferee = newValue;
                               });
                             },
-                            items: venues
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
+                            items: venues.map<DropdownMenuItem<dynamic>>(
+                                (dynamic value) {
+                              return DropdownMenuItem<dynamic>(
+                                value: value['name'].toString(),
+                                child: Text(value['name'].toString()),
                               );
                             }).toList(),
                           ),
@@ -296,6 +331,7 @@ class _AddMatchesScreenState extends State<AddMatchesScreen> {
                     ],
                   ),
                   // Add more widgets here for other match details
+                  TextButton(onPressed: () {}, child: Text("Add Match"))
                 ],
               ),
             ),
