@@ -6,6 +6,7 @@ import 'package:web_frontend/src/screens/about_screen.dart';
 import 'package:web_frontend/src/screens/accept_users.dart';
 import 'package:web_frontend/src/screens/add_matches.dart';
 import 'package:web_frontend/src/screens/add_stadium.dart';
+import 'package:web_frontend/src/screens/delete_users.dart';
 import 'package:web_frontend/src/screens/home_screen.dart';
 import 'package:web_frontend/src/screens/login_screen.dart';
 import 'package:web_frontend/src/screens/main_screen.dart';
@@ -29,7 +30,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     // check cache for token
     // if token exists, check if admin or not
     // if admin, navigate to accept users screen
@@ -80,6 +80,7 @@ class MyApp extends StatelessWidget {
               match: Match(),
             ),
         '/add_stadium': (context) => AddStadiumScreen(),
+        '/delete_users': (context) => DeleteUsersScreen(),
       },
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         // Mouse dragging enabled for this demo
