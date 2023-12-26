@@ -5,9 +5,7 @@ import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 
 const portNumber = String.fromEnvironment('FLUTTER_PORT', defaultValue: '5000');
 
-// const baseUrl = 'https://b39a-197-60-24-63.ngrok-free.app';
-// const baseUrl = 'https://5f5d-193-227-10-6.ngrok-free.app';
-const baseUrl = 'http://192.168.137.105:3005';
+const baseUrl = 'https://b39a-197-60-24-63.ngrok-free.app';
 
 // : 'http://10.0.2.2:3000/';
 
