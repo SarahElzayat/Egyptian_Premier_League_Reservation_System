@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 final screensTitles = ['Home', 'Matches', 'Login', 'Sign Up', 'About', 'FIFA'];
 
 AppBar AppBarComponent(context, {index = 5, title = "FIFA"}) {
+
+
   return AppBar(
     title: Text(title),
     automaticallyImplyLeading: false,
@@ -11,15 +13,16 @@ AppBar AppBarComponent(context, {index = 5, title = "FIFA"}) {
       TextButton(
           onPressed: () => {Navigator.pushNamed(context, '/home')},
           child: const Text('Home')),
-      TextButton(
-          onPressed: () => {Navigator.pushNamed(context, '/upcoming_matches')},
-          child: const Text('Upcoming Matches')),
-      TextButton(
-          onPressed: () => {Navigator.pushNamed(context, '/previous_matches')},
-          child: const Text('Previous Matches')),
-      TextButton(
-          onPressed: () => {Navigator.pushNamed(context, '/add_match')},
-          child: const Text('Add Matches')),
+      // TextButton(
+      //     onPressed: () => {Navigator.pushNamed(context, '/upcoming_matches')},
+      //     child: const Text('Upcoming Matches')),
+      // TextButton(
+      //     onPressed: () => {Navigator.pushNamed(context, '/previous_matches')},
+      //     child: const Text('Previous Matches')),
+      // TextButton(
+      //     onPressed: () => {Navigator.pushNamed(context, '/add_match')},
+      //     child: const Text('Add Matches')),
+      // only if 
       TextButton(
           onPressed: () => {Navigator.pushNamed(context, '/login')},
           child: const Text('Login')),

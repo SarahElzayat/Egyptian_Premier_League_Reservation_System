@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Center(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(16.0),
-          child: Form(
+          child: Form( 
             key: _formKey,
             child: Container(
               width: MediaQuery.sizeOf(context).width * 0.3,
