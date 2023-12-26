@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:web_frontend/src/components/appbar.dart';
 import 'package:web_frontend/src/controller/authentication.dart';
 import 'package:web_frontend/src/controller/match.dart';
 import 'package:web_frontend/src/controller/reservation.dart';
@@ -35,7 +36,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> {
   Timer? _timer;
   bool is_manager = false;
   void _startTimer(BuildContext context) {
-    _timer = Timer.periodic(Duration(milliseconds: 1000), (timer) {
+    _timer = Timer.periodic(const Duration(milliseconds: 1000), (timer) {
       getMatch(context);
     });
   }
@@ -84,23 +85,23 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Enter Details'),
+          title: const Text('Enter Details'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
-                decoration: InputDecoration(labelText: 'card number'),
+                decoration: const InputDecoration(labelText: 'card number'),
                 onChanged: (value) => fieldOne = value,
               ),
               TextField(
-                decoration: InputDecoration(labelText: 'PIN'),
+                decoration: const InputDecoration(labelText: 'PIN'),
                 onChanged: (value) => fieldTwo = value,
               ),
             ],
           ),
           actions: [
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context)
                     .pop({'card_number': fieldOne, 'PIN': fieldTwo});
@@ -117,16 +118,17 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> {
     if (match.id == null) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Match Details'),
+          title: const Text('Match Details'),
         ),
-        body: Center(
-          child: CircularProgressIndicator(),
+        body: const Center(
+          child: const CircularProgressIndicator(),
         ),
       );
     }
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Match Details'),
+      appBar: AppBarComponent(
+        context,
+        title: "Match Details",
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -167,7 +169,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> {
                               ),
                           ],
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         matchDetailRow(
                             'Date:', match.date!.split('T')[0] ?? ""),
                         matchDetailRow('Time:', match.time ?? ""),
@@ -237,7 +239,7 @@ class _MatchInfoScreenState extends State<MatchInfoScreen> {
                                         }, context);
                                         // navigate to the reservation screen with the number in dim1 and dim2
                                       },
-                                child: Text(""),
+                                child: const Text(""),
                               ),
                             );
                           }),
@@ -410,9 +412,9 @@ Widget matchDetailRow(String title, String value) {
       children: <Widget>[
         Text(
           title,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         Text(value),
       ],
     ),

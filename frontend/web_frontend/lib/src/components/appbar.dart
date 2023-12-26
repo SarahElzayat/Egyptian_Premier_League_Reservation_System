@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final screensTitles = ['Home', 'Matches', 'Login', 'Sign Up', 'About', 'FIFA'];
 
@@ -32,6 +32,14 @@ AppBar AppBarComponent(context, {index = 5, title = "FIFA"}) {
       TextButton(
           onPressed: () => {Navigator.pushNamed(context, '/profile')},
           child: const Text('profile')),
+      TextButton(
+          onPressed: () async {
+            // clear cache
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.clear();
+            Navigator.pushNamed(context, '/home');
+          },
+          child: const Text('Log out')),
     ],
   );
 }
