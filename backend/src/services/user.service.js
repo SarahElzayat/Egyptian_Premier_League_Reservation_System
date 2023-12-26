@@ -115,4 +115,23 @@ const updateUserService = async (data) => {
   };
 };
 
-module.exports = { loginService, registerService, updateUserService };
+const getAllServices = async (data) => {
+  let out = await User.findAll();
+  for (let i = 0; i < data.length; i++) {
+    out[i] = out[i].dataValues;
+  }
+
+  return {
+    status: 200,
+    response: {
+      users: out,
+    },
+  };
+};
+
+module.exports = {
+  loginService,
+  registerService,
+  updateUserService,
+  getAllServices,
+};
