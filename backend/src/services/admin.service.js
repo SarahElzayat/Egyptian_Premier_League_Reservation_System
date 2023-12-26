@@ -74,7 +74,7 @@ const getAllAppendingUsersService = async (data) => {
   // return them in the response
   // select only the regesterAt, username, email
   const out = await User.findAll({
-    attributes: ["regesterAt", "username", "email"],
+    attributes: ["regesterAt", "username", "email", "role"],
     where: {
       status: "not approved",
     },

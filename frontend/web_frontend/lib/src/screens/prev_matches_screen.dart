@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:web_frontend/src/components/appbar.dart';
 import 'package:web_frontend/src/components/match_component.dart';
+import 'package:web_frontend/src/controller/match.dart';
+import '../models/match.dart';
 
 class PreviousMatchesScreen extends StatefulWidget {
   @override
@@ -84,6 +86,23 @@ class _PreviousMatchesScreenState extends State<PreviousMatchesScreen> {
       }
     ]
   };
+  List<Match> matches = [];
+  Future<void> getMatches() async {
+    final res = await getPrevMatches();
+    setState(() {
+      for (var match in res) {
+        matches.add(match);
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getMatches();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,14 +114,9 @@ class _PreviousMatchesScreenState extends State<PreviousMatchesScreen> {
             width: MediaQuery.sizeOf(context).width * 0.4,
             child: ListView(
               children: [
-                for (var match in res["upcomming"]!)
-                  MatchComponent(
-                      match['home_team'],
-                      match['away_team'],
-                      match['match_id'],
-                      match['date_time'],
-                      match['date_time'],
-                      context)
+                for (var match in matches)
+                  MatchComponent(match.homeTeam?.name, match.awayTeam?.name,
+                      match.id, match.date!.split('T')[0], match.time!, context)
               ],
             ),
           ),
