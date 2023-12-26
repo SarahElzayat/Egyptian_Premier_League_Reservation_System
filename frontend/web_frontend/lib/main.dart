@@ -1,9 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_frontend/src/screens/about_screen.dart';
 import 'package:web_frontend/src/screens/accept_users.dart';
 import 'package:web_frontend/src/screens/add_matches.dart';
+import 'package:web_frontend/src/screens/add_stadium.dart';
 import 'package:web_frontend/src/screens/home_screen.dart';
 import 'package:web_frontend/src/screens/login_screen.dart';
 import 'package:web_frontend/src/screens/main_screen.dart';
@@ -23,6 +25,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+    // check cache for token
+    // if token exists, check if admin or not
+    // if admin, navigate to accept users screen
+    // else navigate to home screen
+    // else navigate to login screen
+    // var prefs = SharedPreferences.getInstance()
     return MaterialApp(
       title: 'FIFA Tickets',
       theme: ThemeData(
@@ -46,7 +55,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
-        '/': (context) => MainScreen(),
+        '/': (context) => HomeScreen(),
         // When navigating to the "/second" route, build the SecondScreen widget.
         '/login': (context) => LoginScreen(
               admin: false,
@@ -54,13 +63,14 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomeScreen(),
         '/upcoming_matches': (context) => UpcomingMatchesScreen(),
         '/previous_matches': (context) => PreviousMatchesScreen(),
-        '/signup': (context) => SignUpScreen(),
+        '/signup': (context) => const SignUpScreen(),
         '/about': (context) => AboutScreen(),
         '/match_info': (context) => MatchInfoScreen(id: 1),
-        '/add_match': (context) => AddMatchesScreen(),
+        '/add_match': (context) => const AddMatchesScreen(),
         '/admin_login': (context) =>
             LoginScreen(admin: true), // admin login screen
-        '/accept_users': (context) => AcceptUsersScreen(),
+        '/accept_users': (context) => const AcceptUsersScreen(),
+        '/add_stadium': (context) => AddStadiumScreen(),
       },
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         // Mouse dragging enabled for this demo
