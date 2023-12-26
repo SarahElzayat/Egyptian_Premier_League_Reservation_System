@@ -88,12 +88,12 @@ class _PreviousMatchesScreenState extends State<PreviousMatchesScreen> {
   };
   List<Match> matches = [];
   Future<void> getMatches() async {
-    final res = await getPrevMatches();
-    setState(() {
-      for (var match in res) {
-        matches.add(match);
-      }
-    });
+    // final res = await getPrevMatches();
+    // setState(() {
+    //   for (var match in res) {
+    //     matches.add(match);
+    //   }
+    // });
   }
 
   @override
