@@ -59,10 +59,6 @@ Future<tickets> get_my_tickets(BuildContext context) async {
       headers: {'Content-type': 'application/json', 'token': token});
   if (response.statusCode == 200) {
     tickets data = tickets.fromJson(json.decode(response.body));
-    // for (var ticket in json.decode(response.body)['reservations']) {
-    //   // tickets.add(ticket.fromJson(ticket));
-    //   print(ticket);
-    // }
     return data;
   } else {
     // pop page and show error message
@@ -86,4 +82,57 @@ Future<tickets> get_my_tickets(BuildContext context) async {
     );
   }
   return tickets();
+}
+
+Future<void> cancelReservationControler(int id, BuildContext context) async {
+  // load the token from the local storage and send it in the header
+  SharedPreferences.getInstance().then((prefs) {
+    String token = prefs.getString('token') ?? "";
+    http.delete(Uri.parse('$url/reservation?id=$id'), headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'token': token
+    }).then((response) {
+      if (response.statusCode == 200) {
+        // show success message
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Success"),
+              content: Text(json.decode(response.body)['message'] ??
+                  "cancel reservation done successfully"),
+              actions: <Widget>[
+                ElevatedButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Dismiss the dialog
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Failed"),
+              content: Text(json.decode(response.body)['message'] ??
+                  "cancel reservation failed"),
+              actions: <Widget>[
+                ElevatedButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Dismiss the dialog
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
+  });
 }

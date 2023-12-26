@@ -15,10 +15,18 @@ class _TicketsScreenState extends State<TicketsScreen> {
   bool fetch = false;
   Future<void> getTickets(BuildContext context) async {
     data = await get_my_tickets(context);
-    print(tickets);
+
     setState(() {
       fetch = true;
     });
+  }
+
+  Future<void> cancelReservation(int id, BuildContext context) async {
+    await cancelReservationControler(id, context);
+    // pop up dialog if the sucess and another one with the failuer
+    // ignore: use_build_context_synchronously
+    await getTickets(context);
+    // setState(() {});
   }
 
   @override
@@ -41,7 +49,7 @@ class _TicketsScreenState extends State<TicketsScreen> {
           child: CircularProgressIndicator(),
         ),
       );
-    else
+    else {
       return Scaffold(
         appBar: AppBarComponent(
           context,
@@ -54,14 +62,23 @@ class _TicketsScreenState extends State<TicketsScreen> {
             itemBuilder: (context, index) {
               return Card(
                 child: ListTile(
-                  title: Text(data.reservations![index].matchId.toString()),
-                  subtitle: Text(data.reservations![index].id.toString()),
-                  trailing: Text(data.reservations![index].matchId.toString()),
+                  title: Text(
+                      "${data.reservations![index].homeTeam!.name} vs ${data.reservations![index].awayTeam!.name}"),
+                  subtitle: Text(
+                      "Stadium: ${data.reservations![index].matchVenue!.name}\nDate: ${data.reservations![index].date!.split('T')[0]}   Time: ${data.reservations![index].time}"),
+                  trailing: ElevatedButton(
+                    onPressed: () {
+                      // Implement cancellation logic
+                      cancelReservation(data.reservations![index].id!, context);
+                    },
+                    child: Text("Cancel"),
+                  ),
                 ),
               );
             },
           ),
         ),
       );
+    }
   }
 }

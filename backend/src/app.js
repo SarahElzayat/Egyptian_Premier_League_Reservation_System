@@ -44,7 +44,6 @@ class App {
     this.app.use("/match", matchRouter);
     this.app.use("/team", teamRouter);
     this.app.use("/stadium", stadiumRouter);
-
     this.app.use("/reservation", reservationRouter);
   }
   listen() {

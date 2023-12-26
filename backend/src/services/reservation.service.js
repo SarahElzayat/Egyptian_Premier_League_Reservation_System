@@ -69,11 +69,36 @@ const cancelreservationService = async (data) => {
       message: "this reservation dosnt exist",
     };
   }
-  await Reservation.destroy({
+  const reserv = await Reservation.findOne({
     where: {
       id,
     },
   });
+  const matchId = reserv.dataValues["matchId"];
+  console.log(matchId);
+  const match = await Match.findOne({
+    where: {
+      id: matchId,
+    },
+  });
+  //   check if the date of the match is at least 3 days in the future
+  const match_date = match.dataValues["date"];
+  const current = new Date().setHours(0, 0, 0, 0);
+  const timeDifference = match_date.getTime() - current;
+  const daysDifference = timeDifference / (1000 * 3600 * 24);
+  if (daysDifference >= 3) {
+    await Reservation.destroy({
+      where: {
+        id,
+      },
+    });
+  } else {
+    throw {
+      status: 400,
+      message:
+        "you must cancel the reservation at least 3 days before the match",
+    };
+  }
 
   return {
     status: 200,
@@ -115,7 +140,7 @@ const getReservationsService = async (data) => {
         { model: Stadium, as: "match_venue" },
       ],
     });
-    out[i] = { ...out[i], ...mactch.dataValues };
+    out[i] = { ...mactch.dataValues, ...out[i] };
   }
   return {
     status: 200,
