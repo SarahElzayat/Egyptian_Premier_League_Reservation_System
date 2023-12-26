@@ -1,13 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:web_frontend/src/dio/constant_end_points.dart';
 // import the user module
 import 'package:web_frontend/src/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
-const url = "http://192.168.1.87:3005";
+// const url = "http://192.168.1.87:3005";
+const url = baseUrl;
 
 Future<void> reserved_ticket(
     Map<String, Object> data, BuildContext context) async {

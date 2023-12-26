@@ -1,15 +1,18 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:web_frontend/src/dio/constant_end_points.dart';
 // import the user module
 import 'package:web_frontend/src/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
-const url = "http://192.168.1.87:3005";
+// const url = "http://192.168.1.6/3005";
+const url = baseUrl;
 
 Future<bool> login(Map<String, String> query, BuildContext context) async {
+  print(query);
   final Response response = await http
       .post(Uri.parse('$url/user/login'), body: json.encode(query), headers: {
     'Content-type': 'application/json',
@@ -52,6 +55,7 @@ Future<bool> login(Map<String, String> query, BuildContext context) async {
 Future<bool> signUp(Map<String, String> query, BuildContext context) async {
   final Response response = await http
       .post(Uri.parse('$url/user/signup'), body: json.encode(query), headers: {
+    "Access-Control-Allow-Origin": "*",
     'Content-type': 'application/json',
     'Accept': 'application/json',
   });

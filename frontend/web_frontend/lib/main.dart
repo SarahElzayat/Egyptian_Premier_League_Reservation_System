@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:web_frontend/src/screens/about_screen.dart';
+import 'package:web_frontend/src/screens/add_matches.dart';
 import 'package:web_frontend/src/screens/home_screen.dart';
 import 'package:web_frontend/src/screens/login_screen.dart';
 import 'package:web_frontend/src/screens/main_screen.dart';
@@ -53,6 +54,8 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => SignUpScreen(),
         '/about': (context) => AboutScreen(),
         '/match_info': (context) => MatchInfoScreen(id: 1),
+        '/add_match': (context) => AddMatchesScreen()
+
       },
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         // Mouse dragging enabled for this demo

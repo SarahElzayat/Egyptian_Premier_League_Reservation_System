@@ -52,6 +52,9 @@ AppBar AppBarComponent(context, {index = 5, title = "FIFA"}) {
           onPressed: () => {Navigator.pushNamed(context, '/previous_matches')},
           child: const Text('Previous Matches')),
       TextButton(
+          onPressed: () => {Navigator.pushNamed(context, '/add_match')},
+          child: const Text('Add Matches')),
+      TextButton(
           onPressed: () => {Navigator.pushNamed(context, '/login')},
           child: const Text('Login')),
       TextButton(

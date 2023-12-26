@@ -274,16 +274,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         // Form is valid, you can process the data here.
                         // For example, send it to an API or save it locally.
                         // You can access the form values using the variables you declared earlier.
-                        // print('Username: $username');
-                        // print('Password: $password');
-                        // print('First Name: $firstName');
-                        // print('Last Name: $lastName');
-                        // print('Birth Date: $birthDate');
-                        // print('Gender: $gender');
-                        // print('City: $city');
-                        // print('Address: $address');
-                        // print('Email Address: $email');
-                        // print('Role: $role');
+                        print('Username: $username');
+                        print('Password: $password');
+                        print('First Name: $firstName');
+                        print('Last Name: $lastName');
+                        print('Birth Date: $birthDate');
+                        print('Gender: $gender');
+                        print('City: $city');
+                        print('Address: $address');
+                        print('Email Address: $email');
+                        print('Role: $role');
                         handel_signUp(context);
                         // TODO Call SIGN UP API
                       }
