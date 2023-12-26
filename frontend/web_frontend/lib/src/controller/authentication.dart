@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:web_frontend/src/dio/constant_end_points.dart';
 // import the user module
 import 'package:web_frontend/src/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,7 +13,9 @@ import '../shared/constants/constants.dart' as cons;
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 const url = cons.url;
 
-Future<bool> login(Map<String, String> query, BuildContext context) async {
+Future<bool> login(Map<String, String> query, BuildContext context,
+    {admin = false}) async {
+  print(query);
   final Response response = await http
       .post(Uri.parse('$url/user/login'), body: json.encode(query), headers: {
     'Content-type': 'application/json',
@@ -26,6 +29,10 @@ Future<bool> login(Map<String, String> query, BuildContext context) async {
     prefs.setString('token', token);
     // save the user in the local storage
     prefs.setString('user', json.encode(user));
+
+    if (admin) {
+      prefs.setString('admin', admin);
+    }
     return true;
   } else {
     // ignore: use_build_context_synchronously
@@ -55,6 +62,7 @@ Future<bool> login(Map<String, String> query, BuildContext context) async {
 Future<bool> signUp(Map<String, String> query, BuildContext context) async {
   final Response response = await http
       .post(Uri.parse('$url/user/signup'), body: json.encode(query), headers: {
+    "Access-Control-Allow-Origin": "*",
     'Content-type': 'application/json',
     'Accept': 'application/json',
   });
