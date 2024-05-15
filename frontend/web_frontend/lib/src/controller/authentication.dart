@@ -31,7 +31,7 @@ Future<bool> login(Map<String, String> query, BuildContext context,
     prefs.setString('user', json.encode(user));
 
     if (admin) {
-      prefs.setString('admin', admin);
+      prefs.setString('admin', admin.toString());
     }
     return true;
   } else {

@@ -60,7 +60,7 @@ const createMatchService = async (data) => {
       message: "home team and away team can't be the same",
     };
   }
-  const count = await Match.count({
+  let count = await Match.count({
     where: {
       match_venue_id: match_venue_id,
       date: date,
@@ -72,6 +72,38 @@ const createMatchService = async (data) => {
     throw {
       status: 400,
       message: "there is another match in this stadium in the same timestamp",
+    };
+  }
+
+  //////////////// validate the home team
+  count = await Match.count({
+    where: {
+      home_team_id: home_team_id,
+      date: date,
+      time: time,
+    },
+  });
+
+  if (count > 0) {
+    throw {
+      status: 400,
+      message: "the home team has another match in the same timestamp",
+    };
+  }
+
+  //////////////// validate the away team
+  count = await Match.count({
+    where: {
+      away_team_id: away_team_id,
+      date: date,
+      time: time,
+    },
+  });
+
+  if (count > 0) {
+    throw {
+      status: 400,
+      message: "the away team has another match in the same timestamp",
     };
   }
   // create the match
